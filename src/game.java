@@ -28,8 +28,8 @@ import java.awt.event.*;
 // TODO: popup menu with JPopup (restart,quit)
 
 public class game extends JFrame implements MouseListener, ActionListener {
-    private int row;
-    private int col;
+    public int row;
+    public int col;
     public static ImageIcon flagImage = new ImageIcon("../images/flag.png");
     public static ImageIcon bombImage = new ImageIcon("../images/bomb.png");
     public static ImageIcon explosion = new ImageIcon("../images/explosion.png");
@@ -38,6 +38,8 @@ public class game extends JFrame implements MouseListener, ActionListener {
     public static int bombs;
     public int flagCount;
     public static JButton[][] board;
+    public static JButton restart = new JButton("Restart");
+    public static JButton mainMenu = new JButton("Main Menu");
     public static int[][] bombLocation;
     public static int[][] flags;
     public static int[][] revealed;
@@ -46,6 +48,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     public JPanel message = new JPanel();
     public JLabel winMessage = new JLabel("Congratulations you won!!!");
     public JLabel lossMessage = new JLabel("Ooops mine exploded!");
+    public static String[] options = {"restart","menu","exit"};
     public static boolean gameWon = false;
     public static boolean mineHit = false;
     public static boolean fisrtMove = true;
@@ -344,12 +347,39 @@ public class game extends JFrame implements MouseListener, ActionListener {
                         showBombs();
                         if (gameWon) {
                             message.add(winMessage);
-                            JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,
-                                    imageScaling(46, 55, thumbsUp));
+                            int n = JOptionPane.showOptionDialog(this, "Congrats you won!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
+                            imageScaling(46, 55, thumbsUp),options,0);
+                            if(n==JOptionPane.YES_OPTION)
+                            {
+                                this.dispose();
+                                new game(row,col,bombs);
+                            }
+                            else if(n == JOptionPane.NO_OPTION)
+                            {
+                                this.dispose();
+                            }
+                            else 
+                            {
+                                this.dispose();
+                            }
                         } else {
                             message.add(lossMessage);
-                            JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,
-                                    imageScaling(36, 45, omg));
+                            int n = JOptionPane.showOptionDialog(this, "Ooops bomb exloded!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
+                            imageScaling(36, 45,omg),options,0);
+                            if(n==JOptionPane.YES_OPTION)
+                            {
+                                this.dispose();
+                                fisrtMove = true;
+                                new game(row,col,bombs);
+                            }
+                            else if(n == JOptionPane.NO_OPTION)
+                            {
+                                this.dispose();
+                            }
+                            else 
+                            {
+                                this.dispose();
+                            }
                         }
                         return;
                     } else
