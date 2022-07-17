@@ -20,7 +20,7 @@ import java.awt.event.*;
  */
 
 // TODO: winning case problem \/
-// TODO: count of bombs color 
+// TODO: count of bombs color \/
 // TODO: setting bomb flag \/
 // TODO: time count   
 // TODO: bomb count   
@@ -103,7 +103,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     public static ImageIcon imageScaling(int h, int w, ImageIcon i) {
         ImageIcon image;
         Image img = i.getImage();
-        Image imgScaled = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        Image imgScaled = img.getScaledInstance(h, w, Image.SCALE_SMOOTH);
         image = new ImageIcon(imgScaled);
         return image;
     }
@@ -274,8 +274,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
             for (int j = 0; j < board[0].length; j++) {
                 if (bombLocation[i][j] > 0) {
                     board[i][j].setIcon(null);
-                    board[i][j].setIcon(imageScaling(50, 50, bombImage));
-                    board[i][j].setIcon(bombImage);
+                    board[i][j].setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), bombImage));
                 } else if (!(revealed[i][j] == 0)) {
                     if (i % 2 == 0) {
                         if (j % 2 == 0) {
@@ -327,7 +326,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     public static void main(String[] args) {
-        new game(5, 5, 15);
+        new game(5, 5, 8);
     }
 
     @Override
