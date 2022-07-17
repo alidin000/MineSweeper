@@ -14,7 +14,7 @@ import java.awt.event.*;
  * main tasks
    *board \/
    *creating bombs \/
-   *functionality  
+   *functionality  \/
    *flood fill  \/
    *count of bombs \/
  */
@@ -22,12 +22,12 @@ import java.awt.event.*;
 // TODO: winning case problem \/
 // TODO: count of bombs color 
 // TODO: setting bomb flag \/
-// TODO: time count
-// TODO: bomb count 
-// TODO: first click is safe 50%
+// TODO: time count   
+// TODO: bomb count   
+// TODO: first click is safe \/
 // TODO: popup menu with JPopup (restart,quit)
 
-public class game extends JFrame implements MouseListener,ActionListener {
+public class game extends JFrame implements MouseListener, ActionListener {
     private int row;
     private int col;
     public static ImageIcon flagImage = new ImageIcon("../images/flag.png");
@@ -49,6 +49,7 @@ public class game extends JFrame implements MouseListener,ActionListener {
     public static boolean gameWon = false;
     public static boolean mineHit = false;
     public static boolean fisrtMove = true;
+
     public game(int row, int col, int b) {
         super("MineSweeper");
         this.row = row;
@@ -64,22 +65,26 @@ public class game extends JFrame implements MouseListener,ActionListener {
 
         for (int index = 0; index < row; index++) {
             for (int i = 0; i < col; i++) {
-                board[index][i] = new JButton(" ");
+                board[index][i] = new JButton("");
                 board[index][i].setFocusable(false);
                 board[index][i].setRolloverEnabled(false);
                 board[index][i].setBorder(emptyBorder);
                 board[index][i].addActionListener(this);
                 board[index][i].addMouseListener(this);
-                if (index % 2 == 0)
-                    if (i % 2 == 0)
-                        board[index][i].setBackground(new Color(0, 204, 0));   
-                    else
-                        board[index][i].setBackground(new Color(0, 255, 51));
-                else 
-                    if (i % 2 == 0)
-                        board[index][i].setBackground(new Color(0, 255, 51));
-                    else
+                board[index][i].setFont(new Font("Arial", Font.PLAIN, 40));
+                if (index % 2 == 0) {
+                    if (i % 2 == 0) {
                         board[index][i].setBackground(new Color(0, 204, 0));
+                    } else {
+                        board[index][i].setBackground(new Color(0, 255, 51));
+                    }
+                } else {
+                    if (i % 2 == 0) {
+                        board[index][i].setBackground(new Color(0, 255, 51));
+                    } else {
+                        board[index][i].setBackground(new Color(0, 204, 0));
+                    }
+                }
                 bombPanel.add(board[index][i]);
             }
         }
@@ -95,8 +100,7 @@ public class game extends JFrame implements MouseListener,ActionListener {
         this.setResizable(false);
     }
 
-    public static ImageIcon imageScaling (int h,int w,ImageIcon i)
-    {   
+    public static ImageIcon imageScaling(int h, int w, ImageIcon i) {
         ImageIcon image;
         Image img = i.getImage();
         Image imgScaled = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
@@ -105,7 +109,7 @@ public class game extends JFrame implements MouseListener,ActionListener {
     }
 
     // creating bombs
-    public void createBombs(int r,int c) {
+    public void createBombs(int r, int c) {
         int b = bombs;
         Random rand = new Random();
         while (b > 0) {
@@ -114,21 +118,21 @@ public class game extends JFrame implements MouseListener,ActionListener {
             if (bombLocation[i][j] > 0 || (i == r && j == c))
                 continue;
             bombLocation[i][j]++;
-            if (i - 1 >= 0 && bombLocation[i-1][j] == 0)
+            if (i - 1 >= 0 && bombLocation[i - 1][j] == 0)
                 countBombs[i - 1][j]++;
-            if (i + 1 < row && bombLocation[i+1][j] == 0)
+            if (i + 1 < row && bombLocation[i + 1][j] == 0)
                 countBombs[i + 1][j]++;
-            if (j - 1 >= 0 && bombLocation[i][j-1] == 0)
+            if (j - 1 >= 0 && bombLocation[i][j - 1] == 0)
                 countBombs[i][j - 1]++;
-            if (j + 1 < col && bombLocation[i][j+1] == 0)
+            if (j + 1 < col && bombLocation[i][j + 1] == 0)
                 countBombs[i][j + 1]++;
-            if (j + 1 < col && i + 1 < row && bombLocation[i+1][j+1] == 0)
+            if (j + 1 < col && i + 1 < row && bombLocation[i + 1][j + 1] == 0)
                 countBombs[i + 1][j + 1]++;
-            if (i - 1 >= 0 && j - 1 >= 0 && bombLocation[i-1][j-1] == 0)
+            if (i - 1 >= 0 && j - 1 >= 0 && bombLocation[i - 1][j - 1] == 0)
                 countBombs[i - 1][j - 1]++;
-            if (i + 1 < row && j - 1 >= 0 && bombLocation[i+1][j-1] == 0)
+            if (i + 1 < row && j - 1 >= 0 && bombLocation[i + 1][j - 1] == 0)
                 countBombs[i + 1][j - 1]++;
-            if (j + 1 < col && i - 1 >= 0 && bombLocation[i-1][j+1] == 0)
+            if (j + 1 < col && i - 1 >= 0 && bombLocation[i - 1][j + 1] == 0)
                 countBombs[i - 1][j + 1]++;
             b--;
         }
@@ -155,39 +159,42 @@ public class game extends JFrame implements MouseListener,ActionListener {
                 revealed[rr - 1][cc]++;
                 visited.add((rr - 1) + "," + cc);
             }
-            if (cc - 1 >= 0 && !visited.contains((rr) + "," + (cc - 1))&& flags[rr][cc - 1] < 1) {
+            if (cc - 1 >= 0 && !visited.contains((rr) + "," + (cc - 1)) && flags[rr][cc - 1] < 1) {
                 dfs.push((rr) + "," + (cc - 1));
                 revealed[rr][cc - 1]++;
                 visited.add((rr) + "," + (cc - 1));
             }
-            if (rr + 1 < countBombs.length && !visited.contains((rr + 1) + "," + (cc))&& flags[rr + 1][cc] < 1) {
+            if (rr + 1 < countBombs.length && !visited.contains((rr + 1) + "," + (cc)) && flags[rr + 1][cc] < 1) {
                 dfs.push((rr + 1) + "," + cc);
                 revealed[rr + 1][cc]++;
                 visited.add((rr + 1) + "," + cc);
             }
-            if (cc + 1 < countBombs[0].length && !visited.contains((rr) + "," + (cc + 1))&& flags[rr][cc + 1] < 1) {
+            if (cc + 1 < countBombs[0].length && !visited.contains((rr) + "," + (cc + 1)) && flags[rr][cc + 1] < 1) {
                 dfs.push((rr) + "," + (cc + 1));
                 revealed[rr][cc + 1]++;
                 visited.add((rr) + "," + (cc + 1));
             }
 
             if (cc + 1 < countBombs[0].length && rr + 1 < countBombs.length
-                    && !visited.contains((rr + 1) + "," + (cc + 1))&& flags[rr + 1][cc + 1] < 1) {
+                    && !visited.contains((rr + 1) + "," + (cc + 1)) && flags[rr + 1][cc + 1] < 1) {
                 dfs.push((rr + 1) + "," + (cc + 1));
                 revealed[rr + 1][cc + 1]++;
                 visited.add((rr + 1) + "," + (cc + 1));
             }
-            if (cc - 1 >= 0 && rr + 1 < countBombs.length && !visited.contains((rr + 1) + "," + (cc - 1))&& flags[rr + 1][cc - 1] < 1) {
+            if (cc - 1 >= 0 && rr + 1 < countBombs.length && !visited.contains((rr + 1) + "," + (cc - 1))
+                    && flags[rr + 1][cc - 1] < 1) {
                 dfs.push((rr + 1) + "," + (cc - 1));
                 revealed[rr + 1][cc - 1]++;
                 visited.add((rr + 1) + "," + (cc - 1));
             }
-            if (cc + 1 < countBombs[0].length && rr - 1 >= 0 && !visited.contains((rr - 1) + "," + (cc + 1))&& flags[rr - 1][cc + 1] < 1) {
+            if (cc + 1 < countBombs[0].length && rr - 1 >= 0 && !visited.contains((rr - 1) + "," + (cc + 1))
+                    && flags[rr - 1][cc + 1] < 1) {
                 dfs.push((rr - 1) + "," + (cc + 1));
                 revealed[rr - 1][cc + 1]++;
                 visited.add((rr - 1) + "," + (cc + 1));
             }
-            if (cc - 1 >= 0 && rr - 1 >= 0 && !visited.contains((rr - 1) + "," + (cc - 1))&& flags[rr - 1][cc - 1] < 1) {
+            if (cc - 1 >= 0 && rr - 1 >= 0 && !visited.contains((rr - 1) + "," + (cc - 1))
+                    && flags[rr - 1][cc - 1] < 1) {
                 dfs.push((rr - 1) + "," + (cc - 1));
                 revealed[rr - 1][cc - 1]++;
                 visited.add((rr - 1) + "," + (cc - 1));
@@ -196,31 +203,65 @@ public class game extends JFrame implements MouseListener,ActionListener {
 
     }
 
+    public static void numColor(JButton b) {
+        int num = Integer.parseInt(b.getText());
+
+        switch (num) {
+            case 1:
+                b.setForeground(Color.BLUE);
+                break;
+            case 2:
+                b.setForeground(Color.green);
+                break;
+            case 3:
+                b.setForeground(Color.RED);
+                break;
+            case 4:
+                b.setForeground(new Color(102, 0, 153));
+                break;
+            case 5:
+                b.setForeground(new Color(128, 0, 0));
+                break;
+            case 6:
+                b.setForeground(new Color(64, 224, 208));
+                break;
+            case 7:
+                b.setForeground(new Color(0, 0, 0));
+                break;
+            case 8:
+                b.setForeground(new Color(204, 204, 204));
+                break;
+        }
+    }
+
     // printing out the board
     public void showBoard() {
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 if (!(revealed[i][j] == 0)) {
-                        if (i % 2 == 0)
-                            if (j % 2 == 0)
-                                board[i][j].setBackground(new Color(102, 102, 102));   
-                            else
-                                board[i][j].setBackground(new Color(153, 153, 153));
-                        else 
-                            if (j % 2 == 0)
-                                board[i][j].setBackground(new Color(153, 153, 153));
-                            else
-                                board[i][j].setBackground(new Color(102, 102, 102));
-
-                        if (countBombs[i][j] > 0)
-                            board[i][j].setText("" + countBombs[i][j]);
-                        else
-                        {
-                            board[i][j].setText(" ");
+                    if (i % 2 == 0) {
+                        if (j % 2 == 0) {
+                            board[i][j].setBackground(new Color(102, 102, 102));
+                        } else {
+                            board[i][j].setBackground(new Color(153, 153, 153));
                         }
+                    } else {
+                        if (j % 2 == 0) {
+                            board[i][j].setBackground(new Color(153, 153, 153));
+                        } else {
+                            board[i][j].setBackground(new Color(102, 102, 102));
+                        }
+                    }
+
+                    if (countBombs[i][j] > 0) {
+                        board[i][j].setText("" + countBombs[i][j]);
+                        numColor(board[i][j]);
+                    } else {
+                        board[i][j].setText("");
+                    }
                 } else {
-                    board[i][j].setText(" ");
+                    board[i][j].setText("");
                 }
             }
         }
@@ -236,26 +277,29 @@ public class game extends JFrame implements MouseListener,ActionListener {
                     board[i][j].setIcon(imageScaling(50, 50, bombImage));
                     board[i][j].setIcon(bombImage);
                 } else if (!(revealed[i][j] == 0)) {
-                    if (i % 2 == 0)
-                        if (j % 2 == 0)
-                            board[i][j].setBackground(new Color(102, 102, 102));   
-                        else
-                            board[i][j].setBackground(new Color(153, 153, 153));
-                    else 
-                        if (j % 2 == 0)
-                            board[i][j].setBackground(new Color(153, 153, 153));
-                        else
+                    if (i % 2 == 0) {
+                        if (j % 2 == 0) {
                             board[i][j].setBackground(new Color(102, 102, 102));
-
-                    if (countBombs[i][j] > 0)
-                        board[i][j].setText("" + countBombs[i][j]);
-                    else
-                    {
-                        board[i][j].setText(" ");
+                        } else {
+                            board[i][j].setBackground(new Color(153, 153, 153));
+                        }
+                    } else {
+                        if (j % 2 == 0) {
+                            board[i][j].setBackground(new Color(153, 153, 153));
+                        } else {
+                            board[i][j].setBackground(new Color(102, 102, 102));
+                        }
                     }
-            } else {
-                board[i][j].setText(" ");
-            }
+
+                    if (countBombs[i][j] > 0) {
+                        board[i][j].setText("" + countBombs[i][j]);
+                        numColor(board[i][j]);
+                    } else {
+                        board[i][j].setText("");
+                    }
+                } else {
+                    board[i][j].setText("");
+                }
             }
         }
     }
@@ -283,39 +327,33 @@ public class game extends JFrame implements MouseListener,ActionListener {
     }
 
     public static void main(String[] args) {
-        new game(4, 4, 1);
+        new game(5, 5, 15);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
-                if(e.getSource().equals(board[i][j]) && flags[i][j] < 1)
-                {
-                    if(fisrtMove)
-                    {
-                        createBombs(i,j);
+                if (e.getSource().equals(board[i][j]) && flags[i][j] < 1) {
+                    if (fisrtMove) {
+                        createBombs(i, j);
                         fisrtMove = false;
                     }
                     action(i, j);
-                    
 
-                    if(gameWon || mineHit ) 
-                    {
+                    if (gameWon || mineHit) {
                         showBombs();
-                        if(gameWon)
-                        {
+                        if (gameWon) {
                             message.add(winMessage);
-                            JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,imageScaling(46, 55, thumbsUp));
-                        }
-                        else 
-                        {   
+                            JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,
+                                    imageScaling(46, 55, thumbsUp));
+                        } else {
                             message.add(lossMessage);
-                            JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,imageScaling(36, 45, omg));
+                            JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,
+                                    imageScaling(36, 45, omg));
                         }
                         return;
-                    }
-                    else   
+                    } else
                         showBoard();
                 }
             }
@@ -324,22 +362,18 @@ public class game extends JFrame implements MouseListener,ActionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
-        if(SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 1)
-        {
-            
+
+        if (SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 1) {
+
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
-                    if(e.getSource().equals(board[i][j]))
-                    {
-                        if(flags[i][j] == 0 && revealed[i][j] == 0)
-                        {
-                            board[i][j].setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), flagImage));
+                    if (e.getSource().equals(board[i][j])) {
+                        if (flags[i][j] == 0 && revealed[i][j] == 0) {
+                            board[i][j]
+                                    .setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), flagImage));
                             showBoard();
                             flags[i][j]++;
-                        }
-                        else
-                        {
+                        } else {
                             board[i][j].setIcon(null);
                             showBoard();
                             flags[i][j]--;
@@ -353,25 +387,24 @@ public class game extends JFrame implements MouseListener,ActionListener {
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
-        
-        
+
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 }
