@@ -82,9 +82,8 @@ public class game extends JFrame implements MouseListener,ActionListener {
             }
         }
         bombs = b;
-        createBombs(0,0);
-        // showBoard();
-        showBombs();
+        showBoard();
+        // showBombs();
         message.setLayout(new GridBagLayout());
         message.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -231,10 +230,8 @@ public class game extends JFrame implements MouseListener,ActionListener {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 if (bombLocation[i][j] > 0) {
-                    // board[i][j].setText("x");
                     board[i][j].setIcon(null);
                     board[i][j].setIcon(imageScaling(50, 50, bombImage));
-                    System.out.println(board[i][j].getWidth());
                     board[i][j].setIcon(bombImage);
                 } else if (!(revealed[i][j] == 0)) {
                     if (i % 2 == 0)
@@ -284,7 +281,7 @@ public class game extends JFrame implements MouseListener,ActionListener {
     }
 
     public static void main(String[] args) {
-        new game(4, 4, 15);
+        new game(4, 4, 6);
     }
 
     @Override
