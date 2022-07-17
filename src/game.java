@@ -296,19 +296,21 @@ public class game extends JFrame implements MouseListener,ActionListener {
                         fisrtMove = false;
                     }
                     action(i, j);
-                    showBoard();
+                    
 
                     if(gameWon || mineHit ) 
                     {
                         showBombs();
-                        bombPanel.setVisible(false);
                         if(gameWon)
                             message.add(winMessage);
                         else 
                             message.add(lossMessage);
-                        this.add(message);
+                        // JOptionPane.showMessageDialog(this, message);
+                        JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,null);
                         return;
                     }
+                    else   
+                        showBoard();
                 }
             }
         }
@@ -327,7 +329,6 @@ public class game extends JFrame implements MouseListener,ActionListener {
                         if(flags[i][j] == 0 && revealed[i][j] == 0)
                         {
                             board[i][j].setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), flagImage));
-                            System.out.println(board[i][j].getHeight());
                             showBoard();
                             flags[i][j]++;
                         }
@@ -346,65 +347,25 @@ public class game extends JFrame implements MouseListener,ActionListener {
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        if(gameWon || mineHit ) 
-        {
-            System.out.println("entered");
-            showBombs();
-            bombPanel.setVisible(false);
-            if(gameWon)
-                message.add(winMessage);
-            else 
-                message.add(lossMessage);
-            this.add(message);
-        }
+        
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
         
-        if(gameWon || mineHit ) 
-        {
-            showBombs();
-            bombPanel.setVisible(false);
-            if(gameWon)
-                message.add(winMessage);
-            else 
-                message.add(lossMessage);
-            this.add(message);
-        }
+        
     }
     
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-        if(gameWon || mineHit ) 
-        {
-            System.out.println("entered");
-            showBombs();
-            bombPanel.setVisible(false);
-            if(gameWon)
-                message.add(winMessage);
-            else 
-                message.add(lossMessage);
-            this.add(message);
-        }
         
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-        if(gameWon || mineHit ) 
-        {
-            System.out.println("entered");
-            showBombs();
-            bombPanel.setVisible(false);
-            if(gameWon)
-                message.add(winMessage);
-            else 
-                message.add(lossMessage);
-            this.add(message);
-        }
+        
     }
 }
