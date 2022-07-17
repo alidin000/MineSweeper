@@ -33,6 +33,8 @@ public class game extends JFrame implements MouseListener,ActionListener {
     public static ImageIcon flagImage = new ImageIcon("../images/flag.png");
     public static ImageIcon bombImage = new ImageIcon("../images/bomb.png");
     public static ImageIcon explosion = new ImageIcon("../images/explosion.png");
+    public static ImageIcon omg = new ImageIcon("../images/omg.png");
+    public static ImageIcon thumbsUp = new ImageIcon("../images/thumbsUp.png");
     public static int bombs;
     public int flagCount;
     public static JButton[][] board;
@@ -281,7 +283,7 @@ public class game extends JFrame implements MouseListener,ActionListener {
     }
 
     public static void main(String[] args) {
-        new game(4, 4, 6);
+        new game(4, 4, 1);
     }
 
     @Override
@@ -302,11 +304,15 @@ public class game extends JFrame implements MouseListener,ActionListener {
                     {
                         showBombs();
                         if(gameWon)
+                        {
                             message.add(winMessage);
+                            JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,imageScaling(46, 55, thumbsUp));
+                        }
                         else 
+                        {   
                             message.add(lossMessage);
-                        // JOptionPane.showMessageDialog(this, message);
-                        JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,null);
+                            JOptionPane.showMessageDialog(this, message, "Your result", JOptionPane.PLAIN_MESSAGE,imageScaling(36, 45, omg));
+                        }
                         return;
                     }
                     else   
