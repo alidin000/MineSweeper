@@ -25,7 +25,9 @@ import java.awt.event.*;
 // TODO: time count   
 // TODO: bomb count   
 // TODO: first click is safe \/
-// TODO: popup menu with JPopup (restart,quit)
+// TODO: popup menu with JPopup (restart,quit)\/
+// TODO: font size proportionality to frame size
+// TODO: going back menu 
 
 public class game extends JFrame implements MouseListener, ActionListener {
     public int row;
@@ -352,11 +354,13 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             if(n==JOptionPane.YES_OPTION)
                             {
                                 this.dispose();
+                                fisrtMove = true;
                                 new game(row,col,bombs);
                             }
                             else if(n == JOptionPane.NO_OPTION)
                             {
                                 this.dispose();
+                                new Interface();
                             }
                             else 
                             {

@@ -1,8 +1,9 @@
 import java.awt.*;
 
 import javax.swing.*;
+import java.awt.event.*;
 
-public class Interface extends JFrame{
+public class Interface extends JFrame implements ActionListener{
     private JButton scoreBoard = new JButton("Score Board");
     private JButton play = new JButton("Play");
     private JLabel username = new JLabel("username:");
@@ -42,6 +43,7 @@ public class Interface extends JFrame{
         dataPart.add(easy);
         dataPart.add(medium);
         dataPart.add(hard);
+        play.addActionListener(this);
         dataPart.add(play);
         scorBoardPart.add(scoreBoard);
         dataPart2.add(dataPart);
@@ -54,5 +56,19 @@ public class Interface extends JFrame{
     }
     public static void main(String[] args) {
         new Interface();
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        if(e.getSource().equals(play))
+        {
+            if(easy.isSelected())
+                new game(10, 10, 10);
+            else if(medium.isSelected())
+                new game(20, 20, 35);
+            else
+                new game(28, 28, 75);
+            this.dispose();
+        }
     }
 }
