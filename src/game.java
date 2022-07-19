@@ -19,7 +19,7 @@ import java.awt.event.*;
    *count of bombs \/
  */
 
-// TODO: winning case problem \/
+// TODO: winning case problem (last minehit issue)
 // TODO: count of bombs color \/
 // TODO: setting bomb flag \/
 // TODO: time count   
@@ -347,7 +347,25 @@ public class game extends JFrame implements MouseListener, ActionListener {
 
                     if (gameWon || mineHit) {
                         showBombs();
-                        if (gameWon) {
+                        if (mineHit) {
+                            message.add(lossMessage);
+                            int n = JOptionPane.showOptionDialog(this, "Ooops bomb exloded!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
+                            imageScaling(36, 45,omg),options,0);
+                            if(n==JOptionPane.YES_OPTION)
+                            {
+                                this.dispose();
+                                fisrtMove = true;
+                                new game(row,col,bombs);
+                            }
+                            else if(n == JOptionPane.NO_OPTION)
+                            {
+                                this.dispose();
+                            }
+                            else 
+                            {
+                                this.dispose();
+                            }
+                        } else {
                             message.add(winMessage);
                             int n = JOptionPane.showOptionDialog(this, "Congrats you won!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
                             imageScaling(46, 55, thumbsUp),options,0);
@@ -361,24 +379,6 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             {
                                 this.dispose();
                                 new Interface();
-                            }
-                            else 
-                            {
-                                this.dispose();
-                            }
-                        } else {
-                            message.add(lossMessage);
-                            int n = JOptionPane.showOptionDialog(this, "Ooops bomb exloded!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
-                            imageScaling(36, 45,omg),options,0);
-                            if(n==JOptionPane.YES_OPTION)
-                            {
-                                this.dispose();
-                                fisrtMove = true;
-                                new game(row,col,bombs);
-                            }
-                            else if(n == JOptionPane.NO_OPTION)
-                            {
-                                this.dispose();
                             }
                             else 
                             {
