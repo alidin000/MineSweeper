@@ -76,7 +76,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
                 board[index][i].setBorder(emptyBorder);
                 board[index][i].addActionListener(this);
                 board[index][i].addMouseListener(this);
-                board[index][i].setFont(new Font("Arial", Font.PLAIN, 40));
+                board[index][i].setFont(new Font("Arial", Font.PLAIN, (int) (40-(row-10)*0.7)));
                 if (index % 2 == 0) {
                     if (i % 2 == 0) {
                         board[index][i].setBackground(new Color(0, 204, 0));
@@ -102,7 +102,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
         this.setSize(600, 600);
         this.add(bombPanel);
         this.setVisible(true);
-        this.setResizable(false);
+        // this.setResizable(false);
     }
 
     public static ImageIcon imageScaling(int h, int w, ImageIcon i) {

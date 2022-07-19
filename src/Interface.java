@@ -77,6 +77,7 @@ public class Interface extends JFrame implements ActionListener{
     }
     public static void main(String[] args) {
         new Interface();
+        System.out.println("working");
     }
     @Override
     public void actionPerformed(ActionEvent e) {
