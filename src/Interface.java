@@ -10,32 +10,47 @@ public class Interface extends JFrame implements ActionListener{
     private JLabel text = new JLabel("MINE SWEEPER");
     private JTextField usernameInput = new JTextField();
     private JLabel size = new JLabel("difficulty:");
-    private JRadioButton  easy = new JRadioButton ("Easy (13x6 10 bombs)");
-    private JRadioButton  medium = new JRadioButton ("Medium (20x9 35 bombs)");
-    private JRadioButton  hard = new JRadioButton ("Hard (28x13  75 bombs)");
+    private JRadioButton  easy = new JRadioButton ("Easy (10x10 10 bombs)");
+    private JRadioButton  medium = new JRadioButton ("Medium (20x20 35 bombs)");
+    private JRadioButton  hard = new JRadioButton ("Hard (28x28  75 bombs)");
     public Interface()
     {
         super("Mine Sweeper");
-        this.setSize(600,600);
-        this.setLayout( new GridLayout(2, 1));
+        Container container = this.getContentPane();
+        GridBagLayout gbl = new GridBagLayout();
+        container.setLayout(gbl);
+        GridBagConstraints gcon = new GridBagConstraints();
+        gcon.weightx = 1;
+        gcon.weighty = 1;
+        gcon.fill=GridBagConstraints.BOTH;
         // this.setResizable(false);
+
+        //adding text part
         JPanel textPanel = new JPanel();
-        textPanel.setLayout(new GridBagLayout());
+        gcon.gridx = 0;
+        gcon.gridy = 0;
+        gcon.gridwidth = 2;
+        gcon.gridheight = 2;
+        gbl.setConstraints(textPanel, gcon);
         textPanel.setBackground(Color.CYAN);
         textPanel.add(text);
         this.add(textPanel);
-        JPanel p = new JPanel();
+
+        //adding data part
+        gcon.gridx = 0;
+        gcon.gridy = 2;
+        gcon.gridwidth = 1;
+        gcon.gridheight = 1;
+        
         JPanel dataPart = new JPanel();
-        JPanel dataPart2 = new JPanel();
         JPanel scorBoardPart = new JPanel();
         ButtonGroup bg=new ButtonGroup();   
+        easy.setSelected(true);
         bg.add(easy);
         bg.add(medium);
         bg.add(hard); 
-        p.setLayout(new GridLayout(1, 2));
         dataPart.setLayout(new GridLayout(7, 1));
-        dataPart2.setLayout(new GridBagLayout());
-        dataPart2.setBackground(Color.ORANGE);
+        dataPart.setBackground(Color.ORANGE);
         scorBoardPart.setBackground(Color.MAGENTA);
         dataPart.add(username);
         dataPart.add(usernameInput);
@@ -45,12 +60,18 @@ public class Interface extends JFrame implements ActionListener{
         dataPart.add(hard);
         play.addActionListener(this);
         dataPart.add(play);
+        gbl.setConstraints(dataPart, gcon);
+        this.add(dataPart);
+        //adding scoreboard part
+        gcon.gridx = 1;
+        gcon.gridy = 2;
+        gcon.gridwidth = 1;
+        gcon.gridheight = 1;
+        gbl.setConstraints(scorBoardPart, gcon);
         scorBoardPart.add(scoreBoard);
-        dataPart2.add(dataPart);
-        p.add(dataPart2);
-        p.add(scorBoardPart);
-        this.add(p);
-        // this.add(scoreBoard);
+        this.add(scorBoardPart);
+
+        this.setSize(600,600);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
