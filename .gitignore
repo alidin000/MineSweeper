@@ -39,4 +39,3 @@ java/build/**
 # other
 .vscode/
 bin/
-lib/
