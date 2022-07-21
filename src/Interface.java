@@ -8,7 +8,7 @@ public class Interface extends JFrame implements ActionListener{
     private JButton play = new JButton("Play");
     private JLabel username = new JLabel("username:");
     private JLabel text = new JLabel("MINE SWEEPER");
-    private JTextField usernameInput = new JTextField();
+    private JTextField usernameInput = new JTextField(1);
     private JLabel size = new JLabel("difficulty:");
     private JRadioButton  easy = new JRadioButton ("Easy (10x10 10 bombs)");
     private JRadioButton  medium = new JRadioButton ("Medium (20x20 35 bombs)");
@@ -84,12 +84,18 @@ public class Interface extends JFrame implements ActionListener{
         // TODO Auto-generated method stub
         if(e.getSource().equals(play))
         {
+            if(usernameInput.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(this, "Username can't be empty", "Empty UserName", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if(easy.isSelected())
                 new game(10, 10, 10);
             else if(medium.isSelected())
                 new game(20, 20, 35);
             else
                 new game(28, 28, 75);
+            ConnectToDataBase.insertToRecords(usernameInput.getText(), 0);
             this.dispose();
         }
     }
