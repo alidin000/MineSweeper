@@ -2,9 +2,11 @@ import java.awt.*;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class Interface extends JFrame implements ActionListener{
     private JButton scoreBoard = new JButton("Score Board");
+    public JPanel scorBoardPart = new JPanel();
     private JButton play = new JButton("Play");
     private JLabel username = new JLabel("username:");
     private JLabel text = new JLabel("MINE SWEEPER");
@@ -43,7 +45,6 @@ public class Interface extends JFrame implements ActionListener{
         gcon.gridheight = 1;
         
         JPanel dataPart = new JPanel();
-        JPanel scorBoardPart = new JPanel();
         ButtonGroup bg=new ButtonGroup();   
         easy.setSelected(true);
         bg.add(easy);
@@ -52,6 +53,7 @@ public class Interface extends JFrame implements ActionListener{
         dataPart.setLayout(new GridLayout(7, 1));
         dataPart.setBackground(Color.ORANGE);
         scorBoardPart.setBackground(Color.MAGENTA);
+        scorBoardPart.setLayout(new GridLayout(2,1));
         dataPart.add(username);
         dataPart.add(usernameInput);
         dataPart.add(size);
@@ -68,6 +70,7 @@ public class Interface extends JFrame implements ActionListener{
         gcon.gridwidth = 1;
         gcon.gridheight = 1;
         gbl.setConstraints(scorBoardPart, gcon);
+        scoreBoard.addActionListener(this);
         scorBoardPart.add(scoreBoard);
         this.add(scorBoardPart);
 
@@ -97,6 +100,18 @@ public class Interface extends JFrame implements ActionListener{
                 new game(28, 28, 75);
             ConnectToDataBase.insertToRecords(usernameInput.getText(), 0);
             this.dispose();
+        }
+        if(e.getSource().equals(scoreBoard))
+        {
+            try {
+                JLabel temp = new JLabel(ConnectToDataBase.getResults());
+                scorBoardPart.add(temp);
+                System.out.println("wro");
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            
         }
     }
 }
