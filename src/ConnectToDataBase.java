@@ -18,8 +18,6 @@ public class ConnectToDataBase {
                 PreparedStatement preparedStmt = dbconnect.prepareStatement(query);
                 preparedStmt.setInt   (1, 6000);
                 preparedStmt.setString(2, userName);
-          
-                // execute the java preparedstatement
                 preparedStmt.executeUpdate();
             }
             else 
@@ -46,7 +44,6 @@ public class ConnectToDataBase {
     }
     public static String getResults() throws SQLException
     {
-        StringBuilder s= new StringBuilder();
         Statement sqlSt;
         ResultSet result;
         String SQL="select * from userData order by score";
@@ -54,7 +51,6 @@ public class ConnectToDataBase {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
@@ -69,7 +65,6 @@ public class ConnectToDataBase {
     }
     public static void main(String[] args) throws SQLException
     {
-        insertToRecords("userName", 1);
         System.out.println( getResults());
     }
 }

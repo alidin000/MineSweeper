@@ -331,6 +331,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     public static void main(String[] args) {
+        System.out.println("W");
         new game(5, 5, 8);
     }
 
@@ -359,6 +360,8 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             }
                             else if(n == JOptionPane.NO_OPTION)
                             {
+                                fisrtMove = true;
+                                new Interface();
                                 this.dispose();
                             }
                             else 
@@ -373,16 +376,17 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             {
                                 this.dispose();
                                 fisrtMove = true;
+                                System.out.println("D");
                                 new game(row,col,bombs);
                             }
                             else if(n == JOptionPane.NO_OPTION)
                             {
-                                this.dispose();
                                 new Interface();
+                                // this.dispose();
                             }
                             else 
                             {
-                                this.dispose();
+                                // this.dispose();
                             }
                         }
                         return;
