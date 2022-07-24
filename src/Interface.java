@@ -12,7 +12,7 @@ public class Interface extends JFrame implements ActionListener{
     private JLabel username = new JLabel("username:");
     private JLabel text = new JLabel("MINE SWEEPER");
     public ArrayList<JLabel>temp = new ArrayList<>();
-    private JTextField usernameInput = new JTextField(1);
+    public static JTextField usernameInput = new JTextField(1);
     private JLabel size = new JLabel("difficulty:");
     private JRadioButton  easy = new JRadioButton ("Easy (10x10 10 bombs)");
     private JRadioButton  medium = new JRadioButton ("Medium (20x20 35 bombs)");

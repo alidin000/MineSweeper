@@ -19,7 +19,7 @@ public class ConnectToDataBase {
             {              
                 String query = "update userData set score = ? where userName = ?";
                 PreparedStatement preparedStmt = dbconnect.prepareStatement(query);
-                preparedStmt.setInt   (1, 6000);
+                preparedStmt.setInt   (1, score);
                 preparedStmt.setString(2, userName);
                 preparedStmt.executeUpdate();
             }
@@ -58,7 +58,6 @@ public class ConnectToDataBase {
         String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
         Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
         sqlSt = dbconnect.createStatement();
-        insertToRecords("Ali",54);
         result = sqlSt.executeQuery(SQL);
         while(result.next())
         {
@@ -81,12 +80,25 @@ public class ConnectToDataBase {
         String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
         Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
         sqlSt = dbconnect.createStatement();
-        insertToRecords("Ali",54);
         result = sqlSt.executeQuery(SQL);
         while(result.next())
             res.append(result.getString("userName")+" "+result.getString("score")+"\n");
         
         return res.toString();
+    }
+    public static void clear() throws SQLException 
+    {
+        Statement sqlSt;
+        String SQL="TRUNCATE TABLE userData";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
+        Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
+        sqlSt = dbconnect.createStatement();
+        sqlSt.executeUpdate(SQL);
     }
     public static void main(String[] args) throws SQLException
     {

@@ -51,7 +51,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     //for scorePanel
     public JPanel scorePanel = new JPanel();
     public JLabel bombCount = new JLabel("0/8",SwingConstants.CENTER);
-    public JLabel timeCount = new JLabel("1:12",SwingConstants.CENTER);
+    public Timecount timeCount = new Timecount();
     public JLabel smile = new JLabel("(-_-)",SwingConstants.CENTER);
 
 
@@ -401,25 +401,24 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             }
                             this.dispose();
                         } else {
+                            int score = timeCount.score;
+                            timeCount.t.stop();
+                            ConnectToDataBase.insertToRecords(Interface.usernameInput.getText(), score);
+                            String time = timeCount.g.getText();
                             message.add(winMessage);
-                            int n = JOptionPane.showOptionDialog(this, "Congrats you won!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
+                            int n = JOptionPane.showOptionDialog(this, "Congrats you won! Finishing time->"+time, "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
                             imageScaling(46, 55, thumbsUp),options,0);
                             if(n==JOptionPane.YES_OPTION)
                             {
                                 this.dispose();
                                 fisrtMove = true;
-                                System.out.println("D");
                                 new game(row,col,bombs);
                             }
                             else if(n == JOptionPane.NO_OPTION)
                             {
                                 new Interface();
-                                // this.dispose();
                             }
-                            else 
-                            {
-                                // this.dispose();
-                            }
+                            this.dispose();
                         }
                         return;
                     } else
