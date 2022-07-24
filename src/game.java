@@ -74,14 +74,13 @@ public class game extends JFrame implements MouseListener, ActionListener {
         bombLocation = new int[row][col];
         flags = new int[row][col];
         bombPanel.setLayout(new GridLayout(row, col));
-        Border emptyBorder = BorderFactory.createEmptyBorder();
 
         for (int index = 0; index < row; index++) {
             for (int i = 0; i < col; i++) {
                 board[index][i] = new JButton("");
                 board[index][i].setFocusable(false);
                 board[index][i].setRolloverEnabled(false);
-                board[index][i].setBorder(emptyBorder);
+                board[index][i].setBorder(BorderFactory.createEmptyBorder());
                 board[index][i].addActionListener(this);
                 board[index][i].addMouseListener(this);
                 board[index][i].setFont(new Font("Arial", Font.PLAIN, (int) (40-(row-10)*0.7)));
@@ -402,7 +401,6 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             this.dispose();
                         } else {
                             int score = timeCount.score;
-                            timeCount.t.stop();
                             ConnectToDataBase.insertToRecords(Interface.usernameInput.getText(), score);
                             String time = timeCount.g.getText();
                             message.add(winMessage);
@@ -420,6 +418,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             }
                             this.dispose();
                         }
+                        timeCount.t.stop();
                         return;
                     } else
                         showBoard();

@@ -18,44 +18,43 @@ public class Timecount extends JPanel {
     JLabel g = new JLabel();
     public Timecount()
     {
-        JFrame n = new JFrame();
         g.setText(Minutetemp+":"+Secondtemp);
         g.setForeground(Color.red);
-        n.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        n.setSize(600,600);
         SimpleTimer();
         t.start();
         this.add(g);
-        n.add(this);
-        n.setVisible(true);
     }
     public void SimpleTimer()
     {
         t = new Timer(1000,(ActionListener) new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-            second++;
-            score ++;
-            if(second == 60)
-            {
-                minute++;
-                second = 0;
-            }
-            if(minute < 10)
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                second++;
+                score ++;
+                if(second == 60)
+                {
+                    minute++;
+                    second = 0;
+                }
+                if(minute < 10)
                 Minutetemp = "0"+minute;
-            else 
+                else 
                 Minutetemp =""+ minute;
-            
-            if(second < 10)
+                
+                if(second < 10)
                 Secondtemp = "0"+second;
-            else 
+                else 
                 Secondtemp =""+ second;
-            g.setText(Minutetemp+":"+Secondtemp);
-        }
+                g.setText(Minutetemp+":"+Secondtemp);
+            }
         });
     }
     public static void main(String[] args) {
-        new Timecount();
+        JFrame n = new JFrame();
+        n.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        n.setSize(600,600);
+        n.add(new Timecount());
+        n.setVisible(true);
     }
 }

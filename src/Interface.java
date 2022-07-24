@@ -28,7 +28,6 @@ public class Interface extends JFrame implements ActionListener{
         gcon.weighty = 1;
         gcon.fill=GridBagConstraints.BOTH;
         gcon.insets = new Insets(0,0,5,5);
-        // this.setResizable(false);
 
         //adding text part
         JPanel textPanel = new JPanel();
@@ -68,12 +67,9 @@ public class Interface extends JFrame implements ActionListener{
         gbl.setConstraints(dataPart, gcon);
         this.add(dataPart);
         //adding scoreboard part
-        // gcon.gridx = 0;
-        // gcon.gridy = 0;
-        // gcon.gridwidth = 2;
-        // gcon.gridheight = 0;
-        // gbl.setConstraints(scoreBoard, gcon);
         scoreBoard.addActionListener(this);
+        for(JLabel l : temp)
+            scorBoardPart.add(l);
         scorBoardPart.add(scoreBoard);
         gcon.gridx = 1;
         gcon.gridy = 0;
