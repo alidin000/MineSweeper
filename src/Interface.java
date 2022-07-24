@@ -3,6 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Interface extends JFrame implements ActionListener{
     private JButton scoreBoard = new JButton("Score Board");
@@ -10,28 +11,30 @@ public class Interface extends JFrame implements ActionListener{
     private JButton play = new JButton("Play");
     private JLabel username = new JLabel("username:");
     private JLabel text = new JLabel("MINE SWEEPER");
+    public ArrayList<JLabel>temp = new ArrayList<>();
     private JTextField usernameInput = new JTextField(1);
     private JLabel size = new JLabel("difficulty:");
     private JRadioButton  easy = new JRadioButton ("Easy (10x10 10 bombs)");
     private JRadioButton  medium = new JRadioButton ("Medium (20x20 35 bombs)");
     private JRadioButton  hard = new JRadioButton ("Hard (28x28  75 bombs)");
+    public GridBagLayout gbl = new GridBagLayout();
+    public GridBagConstraints gcon = new GridBagConstraints();
     public Interface()
     {
         super("Mine Sweeper");
         Container container = this.getContentPane();
-        GridBagLayout gbl = new GridBagLayout();
         container.setLayout(gbl);
-        GridBagConstraints gcon = new GridBagConstraints();
         gcon.weightx = 1;
         gcon.weighty = 1;
         gcon.fill=GridBagConstraints.BOTH;
+        gcon.insets = new Insets(0,0,5,5);
         // this.setResizable(false);
 
         //adding text part
         JPanel textPanel = new JPanel();
         gcon.gridx = 0;
         gcon.gridy = 0;
-        gcon.gridwidth = 2;
+        gcon.gridwidth = 1;
         gcon.gridheight = 2;
         gbl.setConstraints(textPanel, gcon);
         textPanel.setBackground(Color.CYAN);
@@ -43,7 +46,7 @@ public class Interface extends JFrame implements ActionListener{
         gcon.gridy = 2;
         gcon.gridwidth = 1;
         gcon.gridheight = 1;
-        
+        gcon.insets = new Insets(0,0,0,5);
         JPanel dataPart = new JPanel();
         ButtonGroup bg=new ButtonGroup();   
         easy.setSelected(true);
@@ -53,7 +56,7 @@ public class Interface extends JFrame implements ActionListener{
         dataPart.setLayout(new GridLayout(7, 1));
         dataPart.setBackground(Color.ORANGE);
         scorBoardPart.setBackground(Color.MAGENTA);
-        scorBoardPart.setLayout(new GridLayout(2,1));
+        scorBoardPart.setLayout(new GridLayout(9, 1));
         dataPart.add(username);
         dataPart.add(usernameInput);
         dataPart.add(size);
@@ -65,16 +68,22 @@ public class Interface extends JFrame implements ActionListener{
         gbl.setConstraints(dataPart, gcon);
         this.add(dataPart);
         //adding scoreboard part
-        gcon.gridx = 1;
-        gcon.gridy = 2;
-        gcon.gridwidth = 1;
-        gcon.gridheight = 1;
-        gbl.setConstraints(scorBoardPart, gcon);
+        // gcon.gridx = 0;
+        // gcon.gridy = 0;
+        // gcon.gridwidth = 2;
+        // gcon.gridheight = 0;
+        // gbl.setConstraints(scoreBoard, gcon);
         scoreBoard.addActionListener(this);
         scorBoardPart.add(scoreBoard);
+        gcon.gridx = 1;
+        gcon.gridy = 0;
+        gcon.gridwidth = 3;
+        gcon.gridheight = 3;
+        gcon.insets = new Insets(0,0,0,0);
+        gbl.setConstraints(scorBoardPart, gcon);
         this.add(scorBoardPart);
 
-        this.setSize(600,600);
+        this.setSize(800,600);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -104,9 +113,9 @@ public class Interface extends JFrame implements ActionListener{
         if(e.getSource().equals(scoreBoard))
         {
             try {
-                JLabel temp = new JLabel(ConnectToDataBase.getResults());
-                scorBoardPart.add(temp);
-                System.out.println("wro");
+                ConnectToDataBase.getResults(temp);
+                for(JLabel l : temp)
+                    scorBoardPart.add(l);
             } catch (SQLException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

@@ -1,4 +1,7 @@
 import java.sql.*;
+import java.util.ArrayList;
+
+import javax.swing.JLabel;
 
 public class ConnectToDataBase {
     public static void insertToRecords(String userName,int score)
@@ -41,6 +44,28 @@ public class ConnectToDataBase {
         {
             System.out.println("Can't connect to database " + e.getMessage());
         }
+    }
+    public static void getResults(ArrayList<JLabel>labels) throws SQLException
+    {
+        Statement sqlSt;
+        ResultSet result;
+        String SQL="select * from userData order by score";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
+        Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
+        sqlSt = dbconnect.createStatement();
+        insertToRecords("Ali",54);
+        result = sqlSt.executeQuery(SQL);
+        while(result.next())
+        {
+            JLabel temp = new JLabel();
+            temp.setText(result.getString("userName")+" "+result.getString("score")); 
+            labels.add(temp);
+        }       
     }
     public static String getResults() throws SQLException
     {
