@@ -47,6 +47,14 @@ public class game extends JFrame implements MouseListener, ActionListener {
     public static int[][] revealed;
     public static int[][] countBombs;
     public JPanel bombPanel = new JPanel();
+
+    //for scorePanel
+    public JPanel scorePanel = new JPanel();
+    public JLabel bombCount = new JLabel("10/10",SwingConstants.CENTER);
+    public JLabel timeCount = new JLabel("1:12",SwingConstants.CENTER);
+    public JLabel smile = new JLabel("(-_-)",SwingConstants.CENTER);
+
+
     public JPanel message = new JPanel();
     public JLabel winMessage = new JLabel("Congratulations you won!!!");
     public JLabel lossMessage = new JLabel("Ooops mine exploded!");
@@ -96,13 +104,42 @@ public class game extends JFrame implements MouseListener, ActionListener {
         bombs = b;
         showBoard();
         // showBombs();
+        //scorePanel edition
+        GridBagLayout g = new GridBagLayout();
+        GridBagConstraints gc=new GridBagConstraints();
+        gc.weightx = 1;
+        gc.weighty = 1;
+        gc.fill=GridBagConstraints.BOTH;
+        gc.insets= new Insets(5,20,5,10);
+        scorePanel.setLayout(g);
+        gc.gridx = 0;
+        gc.gridy = 0;
+        gc.gridwidth = 2;
+        gc.gridheight = 2;
+        g.setConstraints(bombCount, gc);
+        bombCount.setOpaque(true);
+        bombCount.setBorder(new LineBorder(Color.BLACK,3));
+        scorePanel.add(bombCount);
+        gc.gridx = 2;
+        g.setConstraints(smile, gc);
+        smile.setOpaque(true);
+        smile.setBorder(new LineBorder(Color.BLACK,3));
+        scorePanel.add(smile);
+        gc.gridx = 4;
+        g.setConstraints(timeCount, gc);
+        timeCount.setForeground(Color.RED);
+        timeCount.setOpaque(true);
+        timeCount.setBorder(new LineBorder(Color.BLACK,3));
+        scorePanel.add(timeCount);
+        scorePanel.setBackground(Color.GRAY);
         message.setLayout(new GridBagLayout());
         message.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(600, 600);
-        this.add(bombPanel);
+        this.setSize(800, 600);
+        this.setLayout(new BorderLayout());
+        this.add(scorePanel,BorderLayout.NORTH);
+        this.add(bombPanel,BorderLayout.CENTER);
         this.setVisible(true);
-        // this.setResizable(false);
     }
 
     public static ImageIcon imageScaling(int h, int w, ImageIcon i) {
