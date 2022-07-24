@@ -50,7 +50,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
 
     //for scorePanel
     public JPanel scorePanel = new JPanel();
-    public JLabel bombCount = new JLabel("10/10",SwingConstants.CENTER);
+    public JLabel bombCount = new JLabel("0/8",SwingConstants.CENTER);
     public JLabel timeCount = new JLabel("1:12",SwingConstants.CENTER);
     public JLabel smile = new JLabel("(-_-)",SwingConstants.CENTER);
 
@@ -102,6 +102,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
             }
         }
         bombs = b;
+        bombCount.setText(""+flagCount+"/"+bombs);
         showBoard();
         // showBombs();
         //scorePanel edition
@@ -368,7 +369,6 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     public static void main(String[] args) {
-        System.out.println("W");
         new game(5, 5, 8);
     }
 
@@ -391,7 +391,6 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             imageScaling(36, 45,omg),options,0);
                             if(n==JOptionPane.YES_OPTION)
                             {
-                                this.dispose();
                                 fisrtMove = true;
                                 new game(row,col,bombs);
                             }
@@ -399,12 +398,8 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             {
                                 fisrtMove = true;
                                 new Interface();
-                                this.dispose();
                             }
-                            else 
-                            {
-                                this.dispose();
-                            }
+                            this.dispose();
                         } else {
                             message.add(winMessage);
                             int n = JOptionPane.showOptionDialog(this, "Congrats you won!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
@@ -436,22 +431,24 @@ public class game extends JFrame implements MouseListener, ActionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
         if (SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 1) {
 
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
-                    if (e.getSource().equals(board[i][j])) {
-                        if (flags[i][j] == 0 && revealed[i][j] == 0) {
+                    if (e.getSource().equals(board[i][j]) && revealed[i][j] == 0) {
+                        if (flags[i][j] == 0  && flagCount < bombs) {
                             board[i][j]
                                     .setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), flagImage));
                             showBoard();
-                            flags[i][j]++;
-                        } else {
+                            flags[i][j]=1;
+                            flagCount++;
+                        } else if(flags[i][j] == 1){
                             board[i][j].setIcon(null);
                             showBoard();
-                            flags[i][j]--;
+                            flags[i][j]=0;
+                            flagCount--;
                         }
+                        bombCount.setText(""+flagCount+"/"+bombs);
                     }
                 }
             }
