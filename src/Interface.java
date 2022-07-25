@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Interface extends JFrame implements ActionListener{
     private JButton scoreBoard = new JButton("Score Board");
     public JPanel scorBoardPart = new JPanel();
+    public JPanel names = new JPanel();
     private JButton play = new JButton("Play");
     private JLabel username = new JLabel("username:");
     private JLabel text = new JLabel("MINE SWEEPER");
@@ -55,7 +56,7 @@ public class Interface extends JFrame implements ActionListener{
         dataPart.setLayout(new GridLayout(7, 1));
         dataPart.setBackground(Color.ORANGE);
         scorBoardPart.setBackground(Color.MAGENTA);
-        scorBoardPart.setLayout(new GridLayout(9, 1));
+        scorBoardPart.setLayout(new BorderLayout());
         dataPart.add(username);
         dataPart.add(usernameInput);
         dataPart.add(size);
@@ -68,9 +69,17 @@ public class Interface extends JFrame implements ActionListener{
         this.add(dataPart);
         //adding scoreboard part
         scoreBoard.addActionListener(this);
+        scorBoardPart.add(scoreBoard,BorderLayout.NORTH);
+        try {
+            ConnectToDataBase.getResults(temp);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        names.setLayout(new GridLayout(temp.size(),1));
         for(JLabel l : temp)
-            scorBoardPart.add(l);
-        scorBoardPart.add(scoreBoard);
+            names.add(l);
+        scorBoardPart.add(names,BorderLayout.CENTER);
         gcon.gridx = 1;
         gcon.gridy = 0;
         gcon.gridwidth = 3;

@@ -4,30 +4,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import java.awt.event.*;
-/*
- * easy 13x6   10 bombs
- * medium 20*9 35 bombs
- * hard 28x13  75 bombs
- */
 
-/*
- * main tasks
-   *board \/
-   *creating bombs \/
-   *functionality  \/
-   *flood fill  \/
-   *count of bombs \/
- */
-
-// TODO: winning case problem (last minehit issue)
-// TODO: count of bombs color \/
-// TODO: setting bomb flag \/
-// TODO: time count   
-// TODO: bomb count   
-// TODO: first click is safe \/
-// TODO: popup menu with JPopup (restart,quit)\/
-// TODO: font size proportionality to frame size
-// TODO: going back menu 
+// TODO: winning case problem (last minehit floodfill activation)
+// TODO: scoreBoard 
 
 public class game extends JFrame implements MouseListener, ActionListener {
     public int row;
