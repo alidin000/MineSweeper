@@ -136,7 +136,16 @@ public class game extends JFrame implements MouseListener, ActionListener {
         while (b > 0) {
             int i = rand.nextInt(row);
             int j = rand.nextInt(col);
-            if (bombLocation[i][j] > 0 || (i == r && j == c))
+            boolean safeZone = (i == r && j == c) 
+                            || (i == r-1 && j == c+1)
+                            || (i == r+1 && j == c-1)
+                            || (i == r-1 && j == c-1)
+                            || (i == r && j == c-1)
+                            || (i == r-1 && j == c)
+                            || (i == r && j == c+1)
+                            || (i == r+1 && j == c+1)
+                            || (i == r+1 && j == c);
+            if (bombLocation[i][j] > 0 || safeZone)
                 continue;
             bombLocation[i][j]++;
             if (i - 1 >= 0 && bombLocation[i - 1][j] == 0)
@@ -347,7 +356,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     public static void main(String[] args) {
-        new game(5, 5, 8);
+        new game(10, 10, 10);
     }
 
     @Override
