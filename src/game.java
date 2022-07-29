@@ -82,7 +82,6 @@ public class game extends JFrame implements MouseListener, ActionListener {
         bombs = b;
         bombCount.setText(""+flagCount+"/"+bombs);
         showBoard();
-        // showBombs();
         //scorePanel edition
         GridBagLayout g = new GridBagLayout();
         GridBagConstraints gc=new GridBagConstraints();
@@ -402,6 +401,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             }
                             else if(n == JOptionPane.NO_OPTION)
                             {
+                                fisrtMove = true;
                                 new Interface();
                             }
                             this.dispose();

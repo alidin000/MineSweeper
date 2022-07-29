@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Interface extends JFrame implements ActionListener{
     private JButton scoreBoard = new JButton("Score Board");
     public JPanel scorBoardPart = new JPanel();
-    public JPanel names = new JPanel();
+    public table names = new table();
     private JButton play = new JButton("Play");
     private JLabel username = new JLabel("username:");
     private JLabel text = new JLabel("MINE SWEEPER");
@@ -70,15 +70,6 @@ public class Interface extends JFrame implements ActionListener{
         //adding scoreboard part
         scoreBoard.addActionListener(this);
         scorBoardPart.add(scoreBoard,BorderLayout.NORTH);
-        try {
-            ConnectToDataBase.getResults(temp);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        names.setLayout(new GridLayout(temp.size(),1));
-        for(JLabel l : temp)
-            names.add(l);
         scorBoardPart.add(names,BorderLayout.CENTER);
         gcon.gridx = 1;
         gcon.gridy = 0;
@@ -116,15 +107,7 @@ public class Interface extends JFrame implements ActionListener{
         }
         if(e.getSource().equals(scoreBoard))
         {
-            try {
-                ConnectToDataBase.getResults(temp);
-                for(JLabel l : temp)
-                    scorBoardPart.add(l);
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-            
+            names.setVisible(true);
         }
     }
 }

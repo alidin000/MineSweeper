@@ -45,8 +45,10 @@ public class ConnectToDataBase {
             System.out.println("Can't connect to database " + e.getMessage());
         }
     }
-    public static void getResults(ArrayList<JLabel>labels) throws SQLException
+    public static Object[][] getResultss() throws SQLException
     {
+        ArrayList<String>names= new ArrayList<>();
+        ArrayList<String>score= new ArrayList<>();
         Statement sqlSt;
         ResultSet result;
         String SQL="select * from userData order by score";
@@ -61,10 +63,18 @@ public class ConnectToDataBase {
         result = sqlSt.executeQuery(SQL);
         while(result.next())
         {
-            JLabel temp = new JLabel();
-            temp.setText(result.getString("userName")+" "+result.getString("score")); 
-            labels.add(temp);
+            names.add(result.getString("userName"));
+            score.add(result.getString("score"));
         }       
+        Object[][] out = new Object[names.size()][3];
+        for(int i=0; i<names.size();i++)
+        {
+            out[i][0] = i+1;
+            out[i][1] = names.get(i);
+            out[i][2] = score.get(i);
+            // System.out.println( out[i][0] +" " +  out[i][1] + " " +  out[i][2]);
+        }
+        return out;
     }
     public static String getResults() throws SQLException
     {
@@ -102,6 +112,6 @@ public class ConnectToDataBase {
     }
     public static void main(String[] args) throws SQLException
     {
-        System.out.println( getResults());
+        System.out.println( getResultss());
     }
 }
