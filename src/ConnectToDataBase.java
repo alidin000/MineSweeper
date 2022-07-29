@@ -1,8 +1,5 @@
 import java.sql.*;
 import java.util.ArrayList;
-
-import javax.swing.JLabel;
-
 public class ConnectToDataBase {
     public static void insertToRecords(String userName,int score)
     {

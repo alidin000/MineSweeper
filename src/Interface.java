@@ -2,7 +2,6 @@ import java.awt.*;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Interface extends JFrame implements ActionListener{
