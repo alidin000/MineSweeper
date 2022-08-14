@@ -48,7 +48,7 @@ public class ConnectToDataBase {
         ArrayList<String>score= new ArrayList<>();
         Statement sqlSt;
         ResultSet result;
-        String SQL="select * from userData order by score";
+        String SQL="select * from userData order by score desc";
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -77,7 +77,7 @@ public class ConnectToDataBase {
     {
         Statement sqlSt;
         ResultSet result;
-        String SQL="select * from userData order by score";
+        String SQL="select * from userData order by score desc";
         StringBuilder res = new StringBuilder();
         try {
             Class.forName("com.mysql.jdbc.Driver");
