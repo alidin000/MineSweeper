@@ -354,6 +354,47 @@ public class game extends JFrame implements MouseListener, ActionListener {
         return count == revealed.length * revealed[0].length - bombs;
     }
 
+    private void finishGame()
+    {
+        showBombs();
+        if (mineHit) {
+            message.add(lossMessage);
+            int n = JOptionPane.showOptionDialog(this, "Ooops bomb exloded!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
+            imageScaling(36, 45,omg),options,0);
+            if(n==JOptionPane.YES_OPTION)
+            {
+                fisrtMove = true;
+                new game(row,col,bombs);
+            }
+            else if(n == JOptionPane.NO_OPTION)
+            {
+                fisrtMove = true;
+                new Interface();
+            }
+            this.dispose();
+        } else {
+            int score = timeCount.score;
+            ConnectToDataBase.insertToRecords(Interface.usernameInput.getText(), score);
+            String time = timeCount.g.getText();
+            message.add(winMessage);
+            int n = JOptionPane.showOptionDialog(this, "Congrats you won! Finishing time->"+time, "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
+            imageScaling(46, 55, thumbsUp),options,0);
+            if(n==JOptionPane.YES_OPTION)
+            {
+                this.dispose();
+                fisrtMove = true;
+                new game(row,col,bombs);
+            }
+            else if(n == JOptionPane.NO_OPTION)
+            {
+                fisrtMove = true;
+                new Interface();
+            }
+            this.dispose();
+        }
+        timeCount.t.stop();
+        return;
+    }
     public static void main(String[] args) {
         new game(10, 10, 10);
     }
@@ -370,44 +411,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
                     action(i, j);
 
                     if (gameWon || mineHit) {
-                        showBombs();
-                        if (mineHit) {
-                            message.add(lossMessage);
-                            int n = JOptionPane.showOptionDialog(this, "Ooops bomb exloded!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
-                            imageScaling(36, 45,omg),options,0);
-                            if(n==JOptionPane.YES_OPTION)
-                            {
-                                fisrtMove = true;
-                                new game(row,col,bombs);
-                            }
-                            else if(n == JOptionPane.NO_OPTION)
-                            {
-                                fisrtMove = true;
-                                new Interface();
-                            }
-                            this.dispose();
-                        } else {
-                            int score = timeCount.score;
-                            ConnectToDataBase.insertToRecords(Interface.usernameInput.getText(), score);
-                            String time = timeCount.g.getText();
-                            message.add(winMessage);
-                            int n = JOptionPane.showOptionDialog(this, "Congrats you won! Finishing time->"+time, "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
-                            imageScaling(46, 55, thumbsUp),options,0);
-                            if(n==JOptionPane.YES_OPTION)
-                            {
-                                this.dispose();
-                                fisrtMove = true;
-                                new game(row,col,bombs);
-                            }
-                            else if(n == JOptionPane.NO_OPTION)
-                            {
-                                fisrtMove = true;
-                                new Interface();
-                            }
-                            this.dispose();
-                        }
-                        timeCount.t.stop();
-                        return;
+                        finishGame();
                     } else
                         showBoard();
                 }
@@ -482,7 +486,6 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             
                             if(tempFlagCount == countBombs[i][j])
                             {
-                            System.out.println(tempFlagCount+" "+countBombs[i][j]);
                             if (i - 1 >= 0 && revealed[i - 1][j] == 0 && flags[i - 1][j] == 0)
                                 {revealed[i - 1][j] = 1;
                                     mineHit = mineHit || (bombLocation[i - 1][j] > 0) ? true : false;}
@@ -519,43 +522,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
                     gameWon = won();
 
                     if (gameWon || mineHit) {
-                        showBombs();
-                        if (mineHit) {
-                            message.add(lossMessage);
-                            int n = JOptionPane.showOptionDialog(this, "Ooops bomb exloded!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
-                            imageScaling(36, 45,omg),options,0);
-                            if(n==JOptionPane.YES_OPTION)
-                            {
-                                fisrtMove = true;
-                                new game(row,col,bombs);
-                            }
-                            else if(n == JOptionPane.NO_OPTION)
-                            {
-                                fisrtMove = true;
-                                new Interface();
-                            }
-                            this.dispose();
-                        } else {
-                            int score = timeCount.score;
-                            ConnectToDataBase.insertToRecords(Interface.usernameInput.getText(), score);
-                            String time = timeCount.g.getText();
-                            message.add(winMessage);
-                            int n = JOptionPane.showOptionDialog(this, "Congrats you won! Finishing time->"+time, "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
-                            imageScaling(46, 55, thumbsUp),options,0);
-                            if(n==JOptionPane.YES_OPTION)
-                            {
-                                this.dispose();
-                                fisrtMove = true;
-                                new game(row,col,bombs);
-                            }
-                            else if(n == JOptionPane.NO_OPTION)
-                            {
-                                fisrtMove = true;
-                                new Interface();
-                            }
-                            this.dispose();
-                        }
-                        timeCount.t.stop();
+                        finishGame();
                         return;
                     }
                     showBoard();
