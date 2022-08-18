@@ -7,15 +7,17 @@ import java.awt.event.*;
 
 // TODO: winning case problem (last minehit floodfill activation)
 // TODO: scoreBoard 
+// TODO: class containing constants (get function returning a copy)
+// TODO: 
 
 public class game extends JFrame implements MouseListener, ActionListener {
     public int row;
     public int col;
-    public static ImageIcon flagImage = new ImageIcon("../images/flag.png");
-    public static ImageIcon bombImage = new ImageIcon("../images/bomb.png");
-    public static ImageIcon explosion = new ImageIcon("../images/explosion.png");
-    public static ImageIcon omg = new ImageIcon("../images/omg.png");
-    public static ImageIcon thumbsUp = new ImageIcon("../images/thumbsUp.png");
+    public static ImageIcon flagImage = new ImageIcon("images/flag.png");
+    public static ImageIcon bombImage = new ImageIcon("images/bomb.png");
+    public static ImageIcon explosion = new ImageIcon("images/explosion.png");
+    public static ImageIcon omg = new ImageIcon("images/omg.png");
+    public static ImageIcon thumbsUp = new ImageIcon("images/thumbsUp.png");
     public static int bombs;
     public int flagCount;
     public static JButton[][] board;
@@ -80,7 +82,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
             }
         }
         bombs = b;
-        bombCount.setText(""+flagCount+"/"+bombs);
+        bombCount.setText(flagCount+"/"+bombs);
         showBoard();
         //scorePanel edition
         GridBagLayout g = new GridBagLayout();
@@ -168,7 +170,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     // flood fill
-    public static void floodFill(int r, int c) {
+    public void floodFill(int r, int c) {
         HashSet<String> visited = new HashSet<>();
         Stack<String> dfs = new Stack<>();
         String cord = r + "," + c;
@@ -232,7 +234,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
 
     }
 
-    public static void numColor(JButton b) {
+    public void numColor(JButton b) {
         int num = Integer.parseInt(b.getText());
 
         switch (num) {
@@ -297,7 +299,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     // showing all the bombs
-    public static void showBombs() {
+    public void showBombs() {
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
@@ -333,17 +335,15 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     // action of the game
-    public static void action(int r, int c) {
+    public void action(int r, int c) {
         mineHit = (bombLocation[r][c] > 0) ? true : false;
         revealed[r][c]++;
         floodFill(r, c);
         gameWon = won();
-        if (mineHit || gameWon)
-            return;
     }
 
     // checking for the game finish
-    private static boolean won() {
+    private boolean won() {
         int count = 0;
         for (int i = 0; i < revealed.length; i++) {
             for (int j = 0; j < revealed[0].length; j++) {
@@ -436,6 +436,129 @@ public class game extends JFrame implements MouseListener, ActionListener {
                         }
                         bombCount.setText(""+flagCount+"/"+bombs);
                     }
+                }
+            }
+        }
+        else if(SwingUtilities.isMiddleMouseButton(e))
+        {
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board.length; j++) {
+                    if (e.getSource().equals(board[i][j]) && revealed[i][j] > 0) {
+                        mineHit = false;
+                        int tempFlagCount = 0;
+                        if (i - 1 >= 0 && flags[i-1][j] > 0)
+                            {tempFlagCount++;
+                                
+                            }
+                        if (i + 1 < row && flags[i + 1][j] > 0)
+                            {tempFlagCount++;
+                                
+                            }
+                        if (j - 1 >= 0 && flags[i][j - 1] > 0)
+                            {tempFlagCount++;
+                                
+                            }
+                        if (j + 1 < col && flags[i][j + 1] > 0)
+                            {tempFlagCount++;
+                                
+                            }
+                        if (j + 1 < col && i + 1 < row && flags[i + 1][j + 1] > 0)
+                            {tempFlagCount++;
+                                
+                            }
+                        if (i - 1 >= 0 && j - 1 >= 0 && flags[i - 1][j - 1] > 0)
+                            {tempFlagCount++;
+                                
+                            }
+                        if (i + 1 < row && j - 1 >= 0 && flags[i + 1][j - 1] > 0)
+                            {tempFlagCount++;
+                               
+                            }
+                        if (j + 1 < col && i - 1 >= 0 && flags[i - 1][j + 1] > 0)
+                            {tempFlagCount++;
+                                
+                            }
+
+                            
+                            if(tempFlagCount == countBombs[i][j])
+                            {
+                            System.out.println(tempFlagCount+" "+countBombs[i][j]);
+                            if (i - 1 >= 0 && revealed[i - 1][j] == 0 && flags[i - 1][j] == 0)
+                                {revealed[i - 1][j] = 1;
+                                    mineHit = mineHit || (bombLocation[i - 1][j] > 0) ? true : false;}
+
+                            if (i + 1 < row && revealed[i + 1][j] == 0&& flags[i + 1][j] == 0)
+                                {revealed[i + 1][j]  = 1;
+                                    mineHit = mineHit || (bombLocation[i + 1][j] > 0) ? true : false;}
+
+                            if (j - 1 >= 0 && revealed[i][j - 1] == 0&& flags[i][j - 1] == 0)
+                                {revealed[i][j - 1] = 1;
+                                    mineHit = mineHit || (bombLocation[i ][j- 1] > 0) ? true : false;}
+
+                            if (j + 1 < col && revealed[i][j + 1] == 0&& flags[i][j + 1] == 0)
+                                {revealed[i][j + 1] = 1;
+                                    mineHit = mineHit || (bombLocation[i ][j+ 1] > 0) ? true : false;}
+
+                            if (j + 1 < col && i + 1 < row && revealed[i + 1][j + 1] == 0&& flags[i + 1][j + 1] == 0)
+                                {revealed[i + 1][j + 1] = 1;
+                                    mineHit = mineHit || (bombLocation[i + 1][j + 1] > 0) ? true : false;}
+                                
+                            if (i - 1 >= 0 && j - 1 >= 0 && revealed[i - 1][j - 1] == 0&& flags[i - 1][j - 1] == 0)
+                                {revealed[i - 1][j - 1] = 1;
+                                    mineHit = mineHit || (bombLocation[i - 1][j - 1] > 0) ? true : false;}
+
+                            if (i + 1 < row && j - 1 >= 0 && revealed[i + 1][j - 1] == 0&& flags[i + 1][j - 1] == 0)
+                                {revealed[i + 1][j - 1]  = 1;
+                                    mineHit = mineHit || (bombLocation[i + 1][j - 1] > 0) ? true : false;}
+
+                            if (j + 1 < col && i - 1 >= 0 && revealed[i - 1][j + 1] == 0&& flags[i - 1][j + 1] == 0)
+                               { revealed[i - 1][j + 1] = 1;
+                                mineHit = mineHit || (bombLocation[i - 1][j + 1] > 0) ? true : false;}
+                        }
+                    }
+                    gameWon = won();
+
+                    if (gameWon || mineHit) {
+                        showBombs();
+                        if (mineHit) {
+                            message.add(lossMessage);
+                            int n = JOptionPane.showOptionDialog(this, "Ooops bomb exloded!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
+                            imageScaling(36, 45,omg),options,0);
+                            if(n==JOptionPane.YES_OPTION)
+                            {
+                                fisrtMove = true;
+                                new game(row,col,bombs);
+                            }
+                            else if(n == JOptionPane.NO_OPTION)
+                            {
+                                fisrtMove = true;
+                                new Interface();
+                            }
+                            this.dispose();
+                        } else {
+                            int score = timeCount.score;
+                            ConnectToDataBase.insertToRecords(Interface.usernameInput.getText(), score);
+                            String time = timeCount.g.getText();
+                            message.add(winMessage);
+                            int n = JOptionPane.showOptionDialog(this, "Congrats you won! Finishing time->"+time, "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
+                            imageScaling(46, 55, thumbsUp),options,0);
+                            if(n==JOptionPane.YES_OPTION)
+                            {
+                                this.dispose();
+                                fisrtMove = true;
+                                new game(row,col,bombs);
+                            }
+                            else if(n == JOptionPane.NO_OPTION)
+                            {
+                                fisrtMove = true;
+                                new Interface();
+                            }
+                            this.dispose();
+                        }
+                        timeCount.t.stop();
+                        return;
+                    }
+                    showBoard();
                 }
             }
         }

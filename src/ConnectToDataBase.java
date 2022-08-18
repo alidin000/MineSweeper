@@ -1,5 +1,8 @@
 import java.sql.*;
 import java.util.ArrayList;
+
+// TODO: remove static methods and variables
+
 public class ConnectToDataBase {
     public static void insertToRecords(String userName,int score)
     {
