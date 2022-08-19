@@ -488,34 +488,42 @@ public class game extends JFrame implements MouseListener, ActionListener {
                             {
                             if (i - 1 >= 0 && revealed[i - 1][j] == 0 && flags[i - 1][j] == 0)
                                 {revealed[i - 1][j] = 1;
+                                    floodFill(i-1, j);
                                     mineHit = mineHit || (bombLocation[i - 1][j] > 0) ? true : false;}
 
                             if (i + 1 < row && revealed[i + 1][j] == 0&& flags[i + 1][j] == 0)
                                 {revealed[i + 1][j]  = 1;
+                                    floodFill(i+1, j);
                                     mineHit = mineHit || (bombLocation[i + 1][j] > 0) ? true : false;}
 
                             if (j - 1 >= 0 && revealed[i][j - 1] == 0&& flags[i][j - 1] == 0)
                                 {revealed[i][j - 1] = 1;
+                                    floodFill(i, j-1);
                                     mineHit = mineHit || (bombLocation[i ][j- 1] > 0) ? true : false;}
 
                             if (j + 1 < col && revealed[i][j + 1] == 0&& flags[i][j + 1] == 0)
                                 {revealed[i][j + 1] = 1;
+                                    floodFill(i, j+1);
                                     mineHit = mineHit || (bombLocation[i ][j+ 1] > 0) ? true : false;}
 
                             if (j + 1 < col && i + 1 < row && revealed[i + 1][j + 1] == 0&& flags[i + 1][j + 1] == 0)
                                 {revealed[i + 1][j + 1] = 1;
+                                    floodFill(i+1, j+1);
                                     mineHit = mineHit || (bombLocation[i + 1][j + 1] > 0) ? true : false;}
                                 
                             if (i - 1 >= 0 && j - 1 >= 0 && revealed[i - 1][j - 1] == 0&& flags[i - 1][j - 1] == 0)
                                 {revealed[i - 1][j - 1] = 1;
+                                    floodFill(i-1, j-1);
                                     mineHit = mineHit || (bombLocation[i - 1][j - 1] > 0) ? true : false;}
 
                             if (i + 1 < row && j - 1 >= 0 && revealed[i + 1][j - 1] == 0&& flags[i + 1][j - 1] == 0)
                                 {revealed[i + 1][j - 1]  = 1;
+                                    floodFill(i+1, j-1);
                                     mineHit = mineHit || (bombLocation[i + 1][j - 1] > 0) ? true : false;}
 
                             if (j + 1 < col && i - 1 >= 0 && revealed[i - 1][j + 1] == 0&& flags[i - 1][j + 1] == 0)
                                { revealed[i - 1][j + 1] = 1;
+                                floodFill(i-1, j+1);
                                 mineHit = mineHit || (bombLocation[i - 1][j + 1] > 0) ? true : false;}
                         }
                     }
