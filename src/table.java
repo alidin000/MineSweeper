@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 
 public class table extends JPanel {
-    JTable scoreBoard = new JTable();
+    private JTable scoreBoard = new JTable();
     public table()
     {
         Object[] columns={"rank","name","score"};
