@@ -8,16 +8,16 @@ public class ConnectToDataBase {
     {
         Statement sqlSt;
         ResultSet result;
-        String SQL="SELECT * from scores where userName = '" + userName +  "'";
+        String SQL="SELECT * from userdata where userName = '" + userName +  "'";
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
+            String dbURL = "jdbc:mysql://localhost:3306/mydatabase";
             Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
             sqlSt = dbconnect.createStatement();
             result = sqlSt.executeQuery(SQL);
             if(result.next())
             {              
-                String query = "update scores set time = ?, difficulty = ? where userName = ?";
+                String query = "update userdata set time = ?, difficulty = ? where userName = ?";
                 PreparedStatement preparedStmt = dbconnect.prepareStatement(query);
                 preparedStmt.setInt   (1, score);
                 preparedStmt.setString(3, userName);
@@ -26,7 +26,7 @@ public class ConnectToDataBase {
             }
             else 
             {
-                String query = " insert into scores (username, time ,difficulty)"+ " values (?, ?,?)";
+                String query = " insert into userdata (username, time ,difficulty)"+ " values (?, ?,?)";
 
                 // create the mysql insert preparedstatement
                 PreparedStatement preparedStmt = dbconnect.prepareStatement(query);
@@ -53,13 +53,13 @@ public class ConnectToDataBase {
         ArrayList<String>score= new ArrayList<>();
         Statement sqlSt;
         ResultSet result;
-        String SQL="select * from scores where difficulty ='Easy' order by time desc";
+        String SQL="select * from userdata where difficulty ='Easy' and time != 0 order by time asc";
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
+        String dbURL = "jdbc:mysql://localhost:3306/mydatabase";
         Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
         sqlSt = dbconnect.createStatement();
         result = sqlSt.executeQuery(SQL);
@@ -88,7 +88,7 @@ public class ConnectToDataBase {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
+        String dbURL = "jdbc:mysql://localhost:3306/mydatabase";
         Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
         sqlSt = dbconnect.createStatement();
         result = sqlSt.executeQuery(SQL);
@@ -100,13 +100,13 @@ public class ConnectToDataBase {
     public static void clear() throws SQLException 
     {
         Statement sqlSt;
-        String SQL="TRUNCATE TABLE scores";
+        String SQL="TRUNCATE TABLE userData";
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String dbURL = "jdbc:mysql://localhost:3306/GameRecords";
+        String dbURL = "jdbc:mysql://localhost:3306/mydatabase";
         Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
         sqlSt = dbconnect.createStatement();
         sqlSt.executeUpdate(SQL);
