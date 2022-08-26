@@ -1,9 +1,6 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.table.*;
+import java.awt.event.*;
 import java.sql.SQLException;
 
 public class newInterface extends JFrame implements ActionListener {
@@ -23,9 +20,11 @@ public class newInterface extends JFrame implements ActionListener {
     private JTable table1;
     private String diff;
     private  ConnectToDataBase dataBase = new ConnectToDataBase();
+    private Constants constants = new Constants();
     public newInterface()
     {
         super("Mine Sweeper");
+        this.setIconImage(constants.getExplosionImg().getImage());
         createUIComponents();
         createTable("Easy");
         this.add(mainPanel);
@@ -53,11 +52,7 @@ public class newInterface extends JFrame implements ActionListener {
     }
     private void createUIComponents() {
         //creating comboBoxes
-//        difficultyCombo = new JComboBox();
         difficultyCombo.setModel(new DefaultComboBoxModel(new String[] {"Easy","Medium","Hard"}));
-
-        //creating score table
-//        scoreBoard.setVisible(false);
 
         //grouping the ratio buttons
         ButtonGroup bg=new ButtonGroup();
@@ -112,5 +107,6 @@ public class newInterface extends JFrame implements ActionListener {
                     break;
             }
         }
+        
     }
 }

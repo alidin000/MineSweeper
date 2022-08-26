@@ -20,7 +20,7 @@ public class Timecount extends JPanel {
         this.add(g);
     }
 
-    public void SimpleTimer() {
+    private void SimpleTimer() {
         t = new Timer(1000, (ActionListener) new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
