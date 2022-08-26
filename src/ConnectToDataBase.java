@@ -4,7 +4,9 @@ import java.util.ArrayList;
 // TODO: remove static methods and variables
 
 public class ConnectToDataBase {
-    public static void insertToRecords(String userName,int score,String difficulty)
+    public ConnectToDataBase()
+    {}
+    public void insertToRecords(String userName,int score,String difficulty)
     {
         Statement sqlSt;
         ResultSet result;
@@ -47,7 +49,7 @@ public class ConnectToDataBase {
             System.out.println("Can't connect to database " + e.getMessage());
         }
     }
-    public static Object[][] getResultss() throws SQLException
+    public Object[][] getResultss() throws SQLException
     {
         ArrayList<String>names= new ArrayList<>();
         ArrayList<String>score= new ArrayList<>();
@@ -97,7 +99,7 @@ public class ConnectToDataBase {
         
         return res.toString();
     }
-    public static void clear() throws SQLException 
+    public void clear() throws SQLException
     {
         Statement sqlSt;
         String SQL="TRUNCATE TABLE userData";
@@ -110,9 +112,5 @@ public class ConnectToDataBase {
         Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
         sqlSt = dbconnect.createStatement();
         sqlSt.executeUpdate(SQL);
-    }
-    public static void main(String[] args) throws SQLException
-    {
-        System.out.println( getResultss());
     }
 }

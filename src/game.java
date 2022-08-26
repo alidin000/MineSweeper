@@ -11,6 +11,7 @@ import java.awt.event.*;
 // TODO: 
 
 public class game extends JFrame implements MouseListener, ActionListener {
+    private ConnectToDataBase dataBase = new ConnectToDataBase();
     public int row;
     public int col;
     public static ImageIcon flagImage = new ImageIcon("images/flag.png");
@@ -374,7 +375,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
             this.dispose();
         } else {
             int score = timeCount.score;
-            ConnectToDataBase.insertToRecords(Interface.usernameInput.getText(), score,Interface.difficulty);
+            dataBase.insertToRecords(Interface.usernameInput.getText(), score,Interface.difficulty);
             String time = timeCount.g.getText();
             message.add(winMessage);
             int n = JOptionPane.showOptionDialog(this, "Congrats you won! Finishing time->"+time, "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,

@@ -7,12 +7,13 @@ import java.sql.SQLException;
 
 public class table extends JPanel {
     private JTable scoreBoard = new JTable();
+    private ConnectToDataBase dataBase = new ConnectToDataBase();
     public table()
     {
-        Object[] columns={"rank","name","score"};
+        Object[] columns={"rank","name","time(seconds)"};
         DefaultTableModel dt;
         try {
-            dt = new DefaultTableModel(ConnectToDataBase.getResultss(),columns);
+            dt = new DefaultTableModel(dataBase.getResultss(),columns);
             scoreBoard.setModel(dt);
             scoreBoard.setBackground(Color.GRAY);
             scoreBoard.setSelectionBackground(Color.ORANGE);

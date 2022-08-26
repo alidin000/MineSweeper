@@ -6,8 +6,9 @@ import java.util.ArrayList;
 
 public class Interface extends JFrame implements ActionListener{
     private JButton scoreBoard = new JButton("Score Board");
+    private ConnectToDataBase dataBase = new ConnectToDataBase();
     public JPanel scorBoardPart = new JPanel();
-    public table names = new table();
+    public newTable names = new newTable();
     private JButton play = new JButton("Play");
     private JLabel username = new JLabel("username:");
     private JLabel text = new JLabel("MINE SWEEPER");
@@ -70,7 +71,7 @@ public class Interface extends JFrame implements ActionListener{
         //adding scoreboard part
         scoreBoard.addActionListener(this);
         scorBoardPart.add(scoreBoard,BorderLayout.NORTH);
-        scorBoardPart.add(names,BorderLayout.CENTER);
+        scorBoardPart.add(names.getPanel(),BorderLayout.CENTER);
         gcon.gridx = 1;
         gcon.gridy = 0;
         gcon.gridwidth = 3;
@@ -106,12 +107,12 @@ public class Interface extends JFrame implements ActionListener{
             else
                 {new game(28, 28, 95);
                     difficulty = "Hard";}
-            ConnectToDataBase.insertToRecords(usernameInput.getText(), 0,difficulty);
+            dataBase.insertToRecords(usernameInput.getText(), 0,difficulty);
             this.dispose();
         }
         if(e.getSource().equals(scoreBoard))
         {
-            names.setVisible(true);
+            names.getPanel().setVisible(true);
         }
     }
 }
