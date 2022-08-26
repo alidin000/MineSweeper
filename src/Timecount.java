@@ -4,13 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Timecount extends JPanel {
-    Timer t;
-    int score = 0;
-    int second = 0;
-    int minute = 0;
-    String Minutetemp = "00";
-    String Secondtemp = "00";
-    JLabel g = new JLabel();
+    private Timer t;
+    private int score = 0;
+    private int second = 0;
+    private int minute = 0;
+    private String Minutetemp = "00";
+    private String Secondtemp = "00";
+    private JLabel g = new JLabel();
 
     public Timecount() {
         g.setText(Minutetemp + ":" + Secondtemp);
@@ -24,7 +24,6 @@ public class Timecount extends JPanel {
         t = new Timer(1000, (ActionListener) new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
                 second++;
                 score++;
                 if (second == 60) {
@@ -43,5 +42,17 @@ public class Timecount extends JPanel {
                 g.setText(Minutetemp + ":" + Secondtemp);
             }
         });
+    }
+    public void stop()
+    {
+        t.stop();
+    }
+    public int getScore()
+    {
+        return score;
+    }
+    public String getTime()
+    {
+        return g.getText();
     }
 }

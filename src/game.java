@@ -5,15 +5,15 @@ import javax.swing.border.*;
 
 import java.awt.event.*;
 
-// TODO: winning case problem (last minehit floodfill activation)
-// TODO: scoreBoard 
 // TODO: class containing constants (get function returning a copy)
 // TODO: 
 
 public class game extends JFrame implements MouseListener, ActionListener {
     private ConnectToDataBase dataBase = new ConnectToDataBase();
-    public int row;
-    public int col;
+    private int row;
+    private int col;
+    private String name;
+    private String diff;
     public static ImageIcon flagImage = new ImageIcon("images/flag.png");
     public static ImageIcon bombImage = new ImageIcon("images/bomb.png");
     public static ImageIcon explosion = new ImageIcon("images/explosion.png");
@@ -45,10 +45,12 @@ public class game extends JFrame implements MouseListener, ActionListener {
     public static boolean mineHit = false;
     public static boolean fisrtMove = true;
 
-    public game(int row, int col, int b) {
+    public game(int row, int col, int b, String name, String diff) {
         super("MineSweeper");
         this.row = row;
         this.col = col;
+        this.name = name;
+        this.diff = diff;
         flagCount = 0;
         board = new JButton[row][col];
         revealed = new int[row][col];
@@ -365,18 +367,18 @@ public class game extends JFrame implements MouseListener, ActionListener {
             if(n==JOptionPane.YES_OPTION)
             {
                 fisrtMove = true;
-                new game(row,col,bombs);
+                new game(row,col,bombs,name,diff);
             }
             else if(n == JOptionPane.NO_OPTION)
             {
                 fisrtMove = true;
-                new Interface();
+                new newInterface();
             }
             this.dispose();
         } else {
-            int score = timeCount.score;
-            dataBase.insertToRecords(Interface.usernameInput.getText(), score,Interface.difficulty);
-            String time = timeCount.g.getText();
+            int score = timeCount.getScore();
+            dataBase.insertToRecords(name, score,diff);
+            String time = timeCount.getTime();
             message.add(winMessage);
             int n = JOptionPane.showOptionDialog(this, "Congrats you won! Finishing time->"+time, "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
             imageScaling(46, 55, thumbsUp),options,0);
@@ -384,20 +386,20 @@ public class game extends JFrame implements MouseListener, ActionListener {
             {
                 this.dispose();
                 fisrtMove = true;
-                new game(row,col,bombs);
+                new game(row,col,bombs,name,diff);
             }
             else if(n == JOptionPane.NO_OPTION)
             {
                 fisrtMove = true;
-                new Interface();
+                new newInterface();
             }
             this.dispose();
         }
-        timeCount.t.stop();
+        timeCount.stop();
         return;
     }
     public static void main(String[] args) {
-        new game(10, 10, 10);
+        new game(10, 10, 10,"temp","Easy");
     }
 
     @Override

@@ -1,7 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-// TODO: remove static methods and variables
 
 public class ConnectToDataBase {
     public ConnectToDataBase()
@@ -49,13 +48,13 @@ public class ConnectToDataBase {
             System.out.println("Can't connect to database " + e.getMessage());
         }
     }
-    public Object[][] getResultss() throws SQLException
+    public Object[][] getResultss(String diff) throws SQLException
     {
         ArrayList<String>names= new ArrayList<>();
         ArrayList<String>score= new ArrayList<>();
         Statement sqlSt;
         ResultSet result;
-        String SQL="select * from userdata where difficulty ='Easy' and time != 0 order by time asc";
+        String SQL="select * from userdata where difficulty ='"+diff+"' and time != 0 order by time asc";
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -78,26 +77,6 @@ public class ConnectToDataBase {
             out[i][2] = score.get(i);
         }
         return out;
-    }
-    public static String getResults() throws SQLException
-    {
-        Statement sqlSt;
-        ResultSet result;
-        String SQL="select * from userData order by time desc";
-        StringBuilder res = new StringBuilder();
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        String dbURL = "jdbc:mysql://localhost:3306/mydatabase";
-        Connection dbconnect = DriverManager.getConnection(dbURL, "root","mySqlAli2022");
-        sqlSt = dbconnect.createStatement();
-        result = sqlSt.executeQuery(SQL);
-        while(result.next())
-            res.append(result.getString("userName")+" "+result.getString("time")+"\n");
-        
-        return res.toString();
     }
     public void clear() throws SQLException
     {

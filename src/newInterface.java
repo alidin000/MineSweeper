@@ -27,17 +27,17 @@ public class newInterface extends JFrame implements ActionListener {
     {
         super("Mine Sweeper");
         createUIComponents();
-        createTable();
+        createTable("Easy");
         this.add(mainPanel);
-//        mainPanel.add(scoreBoard);
+//        scoreBoard.setVisible(false);
         this.setSize(800,600);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    private void createTable() {
+    private void createTable(String diff) {
         try{
             table1.setModel(new DefaultTableModel(
-                    dataBase.getResultss(), new String[] {"rank","name","time(seconds)"}
+                    dataBase.getResultss(diff), new String[] {"rank","name","time(seconds)"}
             ));
             TableColumnModel tcmodel = table1.getColumnModel();
             tcmodel.getColumn(0).setMaxWidth(50);
@@ -57,15 +57,9 @@ public class newInterface extends JFrame implements ActionListener {
         difficultyCombo.setModel(new DefaultComboBoxModel(new String[] {"Easy","Medium","Hard"}));
 
         //creating score table
-//        scoreBoard = new JPanel();
-//        newTable tempTable = new newTable();
-//        scoreBoard.add(tempTable.getTable());
 //        scoreBoard.setVisible(false);
 
         //grouping the ratio buttons
-//        easyRadioButton = new JRadioButton("Easy");
-//        mediumRadioButton = new JRadioButton("Medium");
-//        hardRadioButton = new JRadioButton("Hard");
         ButtonGroup bg=new ButtonGroup();
         easyRadioButton.setSelected(true);
         bg.add(easyRadioButton);
@@ -73,8 +67,6 @@ public class newInterface extends JFrame implements ActionListener {
         bg.add(hardRadioButton);
 
         //adding actionListener to the buttons
-//        PLayButton = new JButton("Play");
-//        showButton = new JButton("Show");
         PLayButton.addActionListener(this);
         showButton.addActionListener(this);
 
@@ -84,7 +76,6 @@ public class newInterface extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(PLayButton))
         {
-            System.out.println("pressed play ");
             if(userInput.getText().isEmpty())
             {
                 JOptionPane.showMessageDialog(mainPanel, "Username can't be empty", "Empty UserName", JOptionPane.ERROR_MESSAGE);
@@ -92,21 +83,34 @@ public class newInterface extends JFrame implements ActionListener {
             }
 
             if(easyRadioButton.isSelected())
-            {new game(10, 10, 15);
+            {new game(10, 10, 15,userInput.getText(),"Easy");
                 diff = "Easy";}
             else if(mediumRadioButton.isSelected())
-            {new game(20, 20, 45);
+            {new game(20, 20, 45,userInput.getText(),"Medium");
                 diff = "Medium";}
             else
-            {new game(28, 28, 95);
+            {new game(28, 28, 95,userInput.getText(),"Hard");
                 diff = "Hard";}
             dataBase.insertToRecords(userInput.getText(), 0,diff);
             this.dispose();
         }
         if(e.getSource().equals(showButton))
         {
-            System.out.println("working");
-            scoreBoard.setVisible(true);
+            int index = difficultyCombo.getSelectedIndex();
+            switch (index)
+            {
+                case 0:
+                    createTable("Easy");
+                    break;
+                case 1:
+                    createTable("Medium");
+                    break;
+                case 2:
+                    createTable("Hard");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
