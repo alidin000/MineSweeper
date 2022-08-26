@@ -5,45 +5,51 @@ import javax.swing.border.*;
 
 import java.awt.event.*;
 
-// TODO: class containing constants (get function returning a copy)
-// TODO: 
 
 public class game extends JFrame implements MouseListener, ActionListener {
+
+    //external classes
     private ConnectToDataBase dataBase = new ConnectToDataBase();
+    private Constants constants = new Constants();
+    private Timecount timeCount = new Timecount();
+
+
     private int row;
     private int col;
+
     private String name;
     private String diff;
-    public static ImageIcon flagImage = new ImageIcon("images/flag.png");
-    public static ImageIcon bombImage = new ImageIcon("images/bomb.png");
-    public static ImageIcon explosion = new ImageIcon("images/explosion.png");
-    public static ImageIcon omg = new ImageIcon("images/omg.png");
-    public static ImageIcon thumbsUp = new ImageIcon("images/thumbsUp.png");
-    public static int bombs;
-    public int flagCount;
-    public static JButton[][] board;
-    public static JButton restart = new JButton("Restart");
-    public static JButton mainMenu = new JButton("Main Menu");
-    public static int[][] bombLocation;
-    public static int[][] flags;
-    public static int[][] revealed;
-    public static int[][] countBombs;
-    public JPanel bombPanel = new JPanel();
 
-    //for scorePanel
-    public JPanel scorePanel = new JPanel();
-    public JLabel bombCount = new JLabel("0/8",SwingConstants.CENTER);
-    public Timecount timeCount = new Timecount();
-    public JLabel smile = new JLabel("(-_-)",SwingConstants.CENTER);
+    private int bombs;
+    private int flagCount;
 
+    //board
+    private JButton[][] board;
 
-    public JPanel message = new JPanel();
-    public JLabel winMessage = new JLabel("Congratulations you won!!!");
-    public JLabel lossMessage = new JLabel("Ooops mine exploded!");
-    public static String[] options = {"restart","menu","exit"};
-    public static boolean gameWon = false;
-    public static boolean mineHit = false;
-    public static boolean fisrtMove = true;
+    //bomb data
+    private int[][] bombLocation;
+    private int[][] flags;
+    private int[][] revealed;
+    private int[][] countBombs;
+    
+    //JPanel variables
+    private JPanel bombPanel = new JPanel();
+    private JPanel scorePanel = new JPanel();
+    private JPanel message = new JPanel();
+
+    //JLabel variables
+    private JLabel bombCount = new JLabel("0/8",SwingConstants.CENTER);
+    private JLabel smile = new JLabel("(-_-)",SwingConstants.CENTER);
+    private JLabel winMessage = new JLabel("Congratulations you won!!!");
+    private JLabel lossMessage = new JLabel("Ooops mine exploded!");
+
+    //String variables
+    private String[] options = {"restart","menu","exit"};
+
+    // booleans variables
+    private boolean gameWon = false;
+    private boolean mineHit = false;
+    private boolean fisrtMove = true;
 
     public game(int row, int col, int b, String name, String diff) {
         super("MineSweeper");
@@ -51,6 +57,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
         this.col = col;
         this.name = name;
         this.diff = diff;
+
         flagCount = 0;
         board = new JButton[row][col];
         revealed = new int[row][col];
@@ -58,7 +65,9 @@ public class game extends JFrame implements MouseListener, ActionListener {
         bombLocation = new int[row][col];
         flags = new int[row][col];
         bombPanel.setLayout(new GridLayout(row, col));
+        
 
+        //setting board
         for (int index = 0; index < row; index++) {
             for (int i = 0; i < col; i++) {
                 board[index][i] = new JButton("");
@@ -68,6 +77,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
                 board[index][i].addActionListener(this);
                 board[index][i].addMouseListener(this);
                 board[index][i].setFont(new Font("Arial", Font.PLAIN, (int) (40-(row-10)*0.7)));
+
                 if (index % 2 == 0) {
                     if (i % 2 == 0) {
                         board[index][i].setBackground(new Color(0, 204, 0));
@@ -86,7 +96,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
         }
         bombs = b;
         bombCount.setText(flagCount+"/"+bombs);
-        showBoard();
+
         //scorePanel edition
         GridBagLayout g = new GridBagLayout();
         GridBagConstraints gc=new GridBagConstraints();
@@ -110,13 +120,18 @@ public class game extends JFrame implements MouseListener, ActionListener {
         scorePanel.add(smile);
         gc.gridx = 4;
         g.setConstraints(timeCount, gc);
+
         timeCount.setForeground(Color.RED);
         timeCount.setOpaque(true);
         timeCount.setBorder(new LineBorder(Color.BLACK,3));
+
         scorePanel.add(timeCount);
         scorePanel.setBackground(Color.GRAY);
+
         message.setLayout(new GridBagLayout());
         message.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(800, 600);
         this.setLayout(new BorderLayout());
@@ -125,7 +140,8 @@ public class game extends JFrame implements MouseListener, ActionListener {
         this.setVisible(true);
     }
 
-    public static ImageIcon imageScaling(int h, int w, ImageIcon i) {
+    //Image resizing
+    private ImageIcon imageScaling(int h, int w, ImageIcon i) {
         ImageIcon image;
         Image img = i.getImage();
         Image imgScaled = img.getScaledInstance(h, w, Image.SCALE_SMOOTH);
@@ -134,7 +150,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     // creating bombs
-    public void createBombs(int r, int c) {
+    private void createBombs(int r, int c) {
         int b = bombs;
         Random rand = new Random();
         while (b > 0) {
@@ -173,7 +189,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     // flood fill
-    public void floodFill(int r, int c) {
+    private void floodFill(int r, int c) {
         HashSet<String> visited = new HashSet<>();
         Stack<String> dfs = new Stack<>();
         String cord = r + "," + c;
@@ -237,7 +253,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
 
     }
 
-    public void numColor(JButton b) {
+    private void numColor(JButton b) {
         int num = Integer.parseInt(b.getText());
 
         switch (num) {
@@ -269,7 +285,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     // printing out the board
-    public void showBoard() {
+    private void showBoard() {
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -302,13 +318,13 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     // showing all the bombs
-    public void showBombs() {
+    private void showBombs() {
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 if (bombLocation[i][j] > 0) {
                     board[i][j].setIcon(null);
-                    board[i][j].setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), bombImage));
+                    board[i][j].setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), constants.getBombImg()));
                 } else if (!(revealed[i][j] == 0)) {
                     if (i % 2 == 0) {
                         if (j % 2 == 0) {
@@ -338,7 +354,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
     }
 
     // action of the game
-    public void action(int r, int c) {
+    private void action(int r, int c) {
         mineHit = (bombLocation[r][c] > 0) ? true : false;
         revealed[r][c]++;
         floodFill(r, c);
@@ -357,13 +373,14 @@ public class game extends JFrame implements MouseListener, ActionListener {
         return count == revealed.length * revealed[0].length - bombs;
     }
 
+    //finish actions
     private void finishGame()
     {
         showBombs();
         if (mineHit) {
             message.add(lossMessage);
             int n = JOptionPane.showOptionDialog(this, "Ooops bomb exloded!", "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
-            imageScaling(36, 45,omg),options,0);
+            imageScaling(36, 45,constants.getOmgImg()),options,0);
             if(n==JOptionPane.YES_OPTION)
             {
                 fisrtMove = true;
@@ -381,7 +398,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
             String time = timeCount.getTime();
             message.add(winMessage);
             int n = JOptionPane.showOptionDialog(this, "Congrats you won! Finishing time->"+time, "Your result", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,
-            imageScaling(46, 55, thumbsUp),options,0);
+            imageScaling(46, 55, constants.getThumbImg()),options,0);
             if(n==JOptionPane.YES_OPTION)
             {
                 this.dispose();
@@ -431,7 +448,7 @@ public class game extends JFrame implements MouseListener, ActionListener {
                     if (e.getSource().equals(board[i][j]) && revealed[i][j] == 0) {
                         if (flags[i][j] == 0  && flagCount < bombs) {
                             board[i][j]
-                                    .setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), flagImage));
+                                    .setIcon(imageScaling(board[i][j].getHeight(), board[i][j].getWidth(), constants.getFlagImg()));
                             showBoard();
                             flags[i][j]=1;
                             flagCount++;
