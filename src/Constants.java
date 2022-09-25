@@ -1,11 +1,12 @@
 import javax.swing.ImageIcon;
 
 public class Constants {
-    private ImageIcon flagImage = new ImageIcon("images/flag.png");
-    private ImageIcon bombImage = new ImageIcon("images/bomb.png");
-    private ImageIcon explosion = new ImageIcon("images/explosion.png");
-    private ImageIcon omg = new ImageIcon("images/omg.png");
-    private ImageIcon thumbsUp = new ImageIcon("images/thumbsUp.png");
+//    private ImageIcon flagImage = new ImageIcon("images/flag.png");
+private ImageIcon flagImage = new ImageIcon(getClass().getClassLoader().getResource(("flag.png")));
+    private ImageIcon bombImage = new ImageIcon(getClass().getClassLoader().getResource(("bomb.png")));
+    private ImageIcon explosion = new ImageIcon(getClass().getClassLoader().getResource(("explosion.png")));
+    private ImageIcon omg = new ImageIcon(getClass().getClassLoader().getResource(("omg.png")));
+    private ImageIcon thumbsUp = new ImageIcon(getClass().getClassLoader().getResource(("thumbsUp.png")));
 
     public Constants()
     {
